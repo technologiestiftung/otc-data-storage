@@ -1,0 +1,14 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "typeRoots": ["node_modules/@types"]
+  }
+}

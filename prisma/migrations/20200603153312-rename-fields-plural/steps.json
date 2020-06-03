@@ -1,0 +1,41 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "detection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "trajectories",
+      "type": "Trajectory",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "detection"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "trajectory"
+    }
+  ]
+}

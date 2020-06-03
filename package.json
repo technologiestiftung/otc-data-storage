@@ -1,0 +1,50 @@
+{
+  "name": "@tsb/otc-data-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "test": "jest",
+    "clean": "rm -rf dist",
+    "style": "prettier --write 'src/**/*'",
+    "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/server.ts",
+    "build": "npm -s run clean && tsc -p .",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
+    "postinstall": "npm -s run generate",
+    "lint-staged": "lint-staged"
+  },
+  "keywords": [
+    "opendatacam",
+    "opentrafficcount"
+  ],
+  "author": "Fabian Morón Zirfas",
+  "license": "MIT",
+  "devDependencies": {
+    "@inpyjamas/scripts": "0.1.0-alpha",
+    "@prisma/cli": "2.0.0-beta.7",
+    "@types/express": "4.17.6",
+    "@types/node": "12.12.42",
+    "@types/ws": "7.2.4",
+    "lint-staged": "10.2.7",
+    "prettier": "2.0.5",
+    "ts-node": "8.10.2",
+    "ts-node-dev": "1.0.0-pre.44",
+    "typescript": "3.9.3"
+  },
+  "dependencies": {
+    "@nexus/schema": "0.13.1",
+    "@prisma/client": "2.0.0-beta.7",
+    "graphql": "15.0.0",
+    "graphql-yoga": "1.18.3",
+    "install": "0.13.0",
+    "nexus-prisma": "0.13.0",
+    "npm": "6.14.5"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}

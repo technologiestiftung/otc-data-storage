@@ -1,0 +1,167 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "detection",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "Detection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "detectionType",
+      "type": "DetectionType",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[detectionTypeId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "detectionTypeId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Detection",
+      "field": "type"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Detection",
+      "field": "typeId"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "detection",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "trajectory",
+      "type": "Trajectory",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "Detection"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "Trajectory"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Trajectory",
+      "field": "detectionType",
+      "type": "DetectionType",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Trajectory",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Trajectory",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[detectionTypeId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Trajectory",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Trajectory",
+      "field": "detectionTypeId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Trajectory",
+      "field": "type"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Trajectory",
+      "field": "typeId"
+    }
+  ]
+}
