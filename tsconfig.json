@@ -9,6 +9,7 @@
     "lib": ["esnext"],
     "esModuleInterop": true,
     "strictNullChecks": false,
+    "skipLibCheck": true,
     "typeRoots": ["node_modules/@types"]
   }
 }
