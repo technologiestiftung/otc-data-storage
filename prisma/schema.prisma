@@ -16,9 +16,9 @@ model Camera {
   active               Boolean
   name                 String
   location             String
+  timezone             Int
   transformationMatrix String?
   owner                String?
-  timezone             Int
   software             String?
   softwareHistory      String?
   hardware             String?

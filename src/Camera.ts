@@ -15,5 +15,8 @@ export const Camera = objectType({
     t.model.angle();
     t.model.geom();
     t.model.counters({ type: "Counter" });
+    t.model.trajectories({ type: "Trajectory" });
+    t.model.weathers({ type: "Weather" });
+    t.model.lightningConditions({ type: "LightningCondition" });
   },
 });
