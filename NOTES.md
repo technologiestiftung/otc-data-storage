@@ -70,7 +70,7 @@ The Response should be
 
 ```graphql
 query GetACamera($input: CameraWhereUniqueInput!) {
-  camera(where: $input) {
+  cameraById(where: $input) {
     id
     name
     counters {
@@ -147,3 +147,9 @@ mutation AddACounter($input: CounterCreateInput!) {
   }
 }
 ```
+
+## Todos
+
+Review these two guides for updating to the latest state of nexus and Prisma to make this project future proof
+
+- [ ] [https://www.prisma.io/docs/guides/upgrade-from-prisma-1/upgrading-nexus-prisma-to-nexus](https://www.prisma.io/docs/guides/upgrade-from-prisma-1/upgrading-nexus-prisma-to-nexus)
