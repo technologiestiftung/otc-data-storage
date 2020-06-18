@@ -165,7 +165,7 @@ schema.queryType({
         }),
       },
       resolve: (_, { cameraId }, ctx) => {
-        return ctx.prisma.counter.findMany({
+        return ctx.db.counter.findMany({
           where: { cameraId: cameraId },
         });
       },
@@ -218,7 +218,7 @@ schema.queryType({
         } else {
           opts = undefined;
         }
-        return ctx.prisma.camera.findMany(opts);
+        return ctx.db.camera.findMany(opts);
       },
     });
   },

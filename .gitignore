@@ -128,3 +128,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.tmp_build/schema.js
+.tmp_build/schema.js.map
+.tmp_build/server.js
+.tmp_build/server.js.map
