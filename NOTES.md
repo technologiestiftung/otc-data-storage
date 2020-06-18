@@ -2,6 +2,15 @@
 
 Some notes to keep track of while working on the API
 
+
+## Neuxs docs
+
+https://www.nexusjs.org/#/plugins/prisma
+
+### Nexus docs testing
+
+https://www.nexusjs.org/#/guides/testing?id=with-a-database
+
 ## Migrations
 
 Create a migration after changes to the `./prisma/schema.prisma`
