@@ -3,7 +3,7 @@
 // - we need typescript 3.8.3
 
 module.exports = {
-  // hooks: {
-  //   "pre-commit": "lint-staged",
-  // },
+  hooks: {
+    "pre-commit": "npm -s run build && lint-staged",
+  },
 };
