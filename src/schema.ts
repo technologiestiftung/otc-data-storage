@@ -1,8 +1,32 @@
 import { settings, schema } from "nexus";
+import { compare, hash } from "bcrypt";
+import { sign } from "jsonwebtoken";
+import { APP_SECRET } from "./server";
 
 // import { booleanArg } from "@nexus/schema";
 // // import { objectType, makeSchema } from "@nexus/schema";
+schema.objectType({
+  name: "AuthPayload",
+  definition(t) {
+    t.string("token");
+    t.field("user", { type: "User" });
+  },
+});
 
+// schema.queryType({
+//   definition(t) {
+
+// });
+
+schema.objectType({
+  name: "User",
+  definition(t) {
+    t.model.id();
+    t.model.password();
+    t.model.name();
+    t.model.email();
+  },
+});
 schema.objectType({
   name: "Counter",
   definition(t) {
@@ -154,6 +178,31 @@ schema.queryType({
       ordering: true,
       filtering: true,
     });
+    t.field("me", {
+      type: "User",
+      async resolve(_root, _args, ctx) {
+        console.log(ctx);
+        if (ctx.token === null) {
+          throw new Error("No token provided");
+        }
+        /**
+         *
+         * TODO: Workaround for issue https://github.com/Camji55/nexus-plugin-jwt-auth/issues/23
+         */
+        const validUser = (ctx.token as unknown) as { userId: number };
+        const user = await ctx.db.user.findOne({
+          where: {
+            id: validUser.userId, // This is the token object passed through the context
+          },
+        });
+
+        if (!user) {
+          throw new Error("No such user exists");
+        }
+
+        return user;
+      },
+    });
 
     t.list.field("countersByCameraId", {
       type: "Counter",
@@ -171,36 +220,6 @@ schema.queryType({
       },
     });
 
-    // t.list.field("allWeathers", {
-    //   type: "Weather",
-    //   resolve: (_, args, ctx) => {
-    //     return ctx.prisma.weather.findMany();
-    //   },
-    // });
-    // t.list.field("allTrajectories", {
-    //   type: "Trajectory",
-    //   resolve: (_, args, ctx) => {
-    //     return ctx.prisma.trajectory.findMany();
-    //   },
-    // });
-    // t.list.field("allDetectionTypes", {
-    //   type: "DetectionType",
-    //   resolve: (_, args, ctx) => {
-    //     return ctx.prisma.detectionType.findMany();
-    //   },
-    // });
-    // t.list.field("allDetections", {
-    //   type: "Detection",
-    //   resolve: (_, args, ctx) => {
-    //     return ctx.prisma.detection.findMany();
-    //   },
-    // });
-    // t.list.field("allCounters", {
-    //   type: "Counter",
-    //   resolve: (_, args, ctx) => {
-    //     return ctx.prisma.counter.findMany();
-    //   },
-    // });
     t.list.field("allCameraByActivity", {
       type: "Camera",
       description:
@@ -232,46 +251,66 @@ schema.mutationType({
     t.crud.createOneDetectionType({ alias: "insertDetectionType" });
     t.crud.createOneTrajectory({ alias: "insertTrajectory" });
     t.crud.createOneWeather({ alias: "insertWeather" });
+    t.field("signup", {
+      type: "AuthPayload",
+      args: {
+        name: schema.stringArg(),
+        email: schema.stringArg({ nullable: false }),
+        password: schema.stringArg({ nullable: false }),
+      },
+      resolve: async (_parent, { name, email, password }, ctx) => {
+        const hashedPassword = await hash(password, 10);
+        const user = await ctx.db.user.create({
+          data: {
+            name,
+            email,
+            password: hashedPassword,
+          },
+        });
+        return {
+          token: sign({ userId: user.id }, APP_SECRET),
+          user,
+        };
+      },
+    });
+
+    t.field("login", {
+      type: "AuthPayload",
+      args: {
+        email: schema.stringArg({ nullable: false }),
+        password: schema.stringArg({ nullable: false }),
+      },
+      resolve: async (_parent, { email, password }, context) => {
+        const user = await context.db.user.findOne({
+          where: {
+            email,
+          },
+        });
+        if (!user) {
+          throw new Error(`No user found for email: ${email}`);
+        }
+        const passwordValid = await compare(password, user.password);
+        if (!passwordValid) {
+          throw new Error("Invalid password");
+        }
+        return {
+          token: sign({ userId: user.id }, APP_SECRET),
+          user,
+        };
+      },
+    });
   },
 });
-
-// export const schema = makeSchema({
-//   types: [
-//     Camera,
-//     Counter,
-//     Query,
-//     Mutation,
-//     Detection,
-//     DetectionType,
-//     Trajectory,
-//     Weather,
-//     LightningCondition,
-//   ],
-//   plugins: [nexusPrismaPlugin()],
-//   outputs: {
-//     schema: path.resolve(__dirname, "../schema.graphql"),
-//     typegen: path.resolve(__dirname, `./generated/nexus.ts`),
-//   },
-//   typegenAutoConfig: {
-//     contextType: "Context.Context",
-//     sources: [
-//       {
-//         source: "@prisma/client",
-//         alias: "prisma",
-//       },
-//       {
-//         source: require.resolve("./context"),
-//         alias: "Context",
-//       },
-//     ],
-//   },
-// });
 
 settings.change({
   // logger: { level: "debug" },
 
   server: {
-    playground: true,
+    // cors: true,
+
+    playground:
+      process.env.NODE_ENV === "production" ? false : { path: "/playground" },
+    path: "/graphql",
     startMessage: (info) => {
       settings.original.server.startMessage(info);
     },
