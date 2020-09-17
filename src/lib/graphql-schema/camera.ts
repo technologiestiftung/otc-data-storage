@@ -1,5 +1,6 @@
-import { objectType } from "@nexus/schema";
-export const Camera = objectType({
+import { schema } from "nexus";
+
+schema.objectType({
   name: "Camera",
   definition(t) {
     t.model.id();

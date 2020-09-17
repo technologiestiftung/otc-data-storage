@@ -1,31 +1,65 @@
-import { GraphQLServer, Options } from "graphql-yoga";
-import { schema } from "./schema";
-import cors from "cors";
+import e, { NextFunction } from "express";
+import { getAllCameras, getCameraById } from "./lib/rest-handlers/cameras";
+import { server, use } from "nexus";
 
-import { createContext } from "./context";
-import { Response, Request } from "express";
-// const prisma = new PrismaClient();
+import { APP_SECRET } from "./lib/envs";
+import { asyncWrapper } from "./lib/util/async-wrapper";
+import { auth } from "nexus-plugin-jwt-auth";
+import createError from "http-errors";
+import { createResponse } from "./lib/util/create-response";
+import { prisma } from "nexus-plugin-prisma";
+import { protectedPaths } from "./lib/permissions";
 
-// import * as Query from "./lib/resolvers/queries";
-// const resolvers = {
-//   Query,
-// };
-const server = new GraphQLServer({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  schema,
-  context: createContext,
-});
+use(
+  prisma({
+    client: { options: { log: ["query"] } },
+    migrations: true,
+    features: { crud: true },
+  }),
+);
 
-server.use(cors());
-server.get("/", (_request: Request, response: Response) => {
-  response.json([1, 2, 3]);
-});
-const options: Options = { endpoint: "/graphql", playground: "/graphql" };
-server.start(options, () => {
-  console.log("running REST on          http://localhost:4000");
-  console.log("running GraphQLServer on http://localhost:4000/graphql");
-  if (options.playground) {
-    console.log("running Palyground on    http://localhost:4000/graphql");
-  }
-});
+use(
+  auth({
+    appSecret: APP_SECRET,
+    protectedPaths,
+  }),
+);
+
+server.express.get(
+  "/healtcheck",
+  asyncWrapper(async (_request, response) => {
+    response.json(createResponse("alive"));
+  }),
+);
+
+server.express.get("/cameras", asyncWrapper(getAllCameras));
+server.express.get("/cameras/:cameraId([0-9]+)", asyncWrapper(getCameraById));
+
+/**
+ * Falltrhough cases
+ *
+ */
+// server.express.use((req, res, next) => {
+//   next(createError(404));
+// });
+
+server.express.use(
+  (
+    error: Error | createError.HttpError,
+    _req: e.Request,
+    res: e.Response,
+    _next: NextFunction,
+  ) => {
+    let status = 500;
+    if (error instanceof createError.HttpError) {
+      status = error.status;
+    }
+    console.error(error);
+    // Sends response
+    res.status(status).json({
+      status,
+      message: error.message,
+      stack: error.stack,
+    });
+  },
+);

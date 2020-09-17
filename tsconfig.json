@@ -1,15 +1,16 @@
 {
-  "include": ["src/**/*"],
+  "include": ["src/**/*","types.d.ts", "src"],
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
+    "plugins": [{ "name": "nexus/typescript-language-service" }],
     "sourceMap": true,
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
+    "noEmit": true,
     "lib": ["esnext"],
     "esModuleInterop": true,
-    // "strictNullChecks": false,
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["types","node_modules/@types"]
   }
 }

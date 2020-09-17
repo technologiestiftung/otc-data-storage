@@ -1,0 +1,118 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Camera {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  active Boolean [not null]
+  name String [not null]
+  location String [not null]
+  timezone Int [not null]
+  transformationMatrix String
+  owner String
+  software String
+  softwareHistory String
+  hardware String
+  geom String
+  angle String
+  counters Counter
+  trajectories Trajectory
+  weathers Weather
+  lightningConditions LightningCondition
+}
+
+Table Counter {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  active Boolean [not null]
+  camera Camera [not null]
+  cameraId Int [not null]
+  street String [not null]
+  streetId String [not null]
+  x1 Float [not null]
+  y1 Float [not null]
+  x2 Float [not null]
+  y2 Float [not null]
+  line String [not null]
+  direction String [not null]
+  detections Detection
+}
+
+Table Detection {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  detectedAt DateTime [not null]
+  counter Counter [not null]
+  counterId Int [not null]
+  detectionType DetectionType [not null]
+  detectionTypeId Int [not null]
+  accuracy Float [not null]
+  x Float [not null]
+  y Float [not null]
+}
+
+Table DetectionType {
+  id Int [pk, increment]
+  label String [not null]
+  description String
+  detections Detection
+  trajectories Trajectory
+}
+
+Table Trajectory {
+  id Int [pk, increment]
+  camera Camera [not null]
+  cameraId Int [not null]
+  trajectory String [not null]
+  geom String [not null]
+  detectionType DetectionType [not null]
+  detectionTypeId Int [not null]
+  start DateTime [not null]
+  end DateTime [not null]
+}
+
+Table Weather {
+  id Int [pk, increment]
+  camera Camera [not null]
+  cameraId Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  recordedAt DateTime [not null]
+  humidity Float
+  pressure Float
+  cloudCoverage Float
+  rain Float
+  temperature Float
+  wind Float
+  windDirection Float
+}
+
+Table LightningCondition {
+  id Int [pk, increment]
+  camera Camera [not null]
+  cameraId Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  recordedAt DateTime [not null]
+  value Float [not null]
+}
+
+Table User {
+  id Int [pk, increment]
+  email String [unique, not null]
+  password String [not null]
+  name String
+}
+
+Ref: Counter.cameraId > Camera.id
+
+Ref: Detection.counterId > Counter.id
+
+Ref: Detection.detectionTypeId > DetectionType.id
+
+Ref: Trajectory.cameraId > Camera.id
+
+Ref: Trajectory.detectionTypeId > DetectionType.id
+
+Ref: Weather.cameraId > Camera.id
+
+Ref: LightningCondition.cameraId > Camera.id

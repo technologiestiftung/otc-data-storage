@@ -1,5 +1,6 @@
-import { objectType } from "@nexus/schema";
-export const Counter = objectType({
+import { schema } from "nexus";
+
+schema.objectType({
   name: "Counter",
   definition(t) {
     t.model.id();

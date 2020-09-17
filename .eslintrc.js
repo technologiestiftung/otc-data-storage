@@ -1,1 +1,1 @@
-module.exports = require("@inpyjamas/scripts/dist/config/eslint/typescript");
+module.exports = require("@inpyjamas/scripts/eslint");
