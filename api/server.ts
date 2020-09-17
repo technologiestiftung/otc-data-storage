@@ -26,7 +26,7 @@ use(
 );
 
 server.express.get(
-  "/healtcheck",
+  "/healthcheck",
   asyncWrapper(async (_request, response) => {
     response.json(createResponse("alive"));
   }),
