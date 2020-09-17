@@ -20,6 +20,6 @@ settings.change({
   },
 
   schema: {
-    generateGraphQLSDLFile: "./src/generated/schema.graphql",
+    generateGraphQLSDLFile: "./api/generated/schema.graphql",
   },
 });
