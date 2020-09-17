@@ -1,0 +1,16 @@
+import { schema } from "nexus";
+
+schema.objectType({
+  name: "Detection",
+  definition(t) {
+    t.model.id();
+    t.model.detectedAt();
+    t.model.counter();
+    t.model.counterId();
+    t.model.detectionType();
+    t.model.detectionTypeId();
+    t.model.accuracy();
+    t.model.x();
+    t.model.y();
+  },
+});
