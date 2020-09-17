@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nexus dev",
-    "prebuild": "nexus report",
+    "prebuild": "prisma generate && nexus report",
     "build": "nexus build",
     "start": "node -r dotenv/config dist/api/index.js dotenv_config_path=prisma/.env",
     "test": "inpyjamas-scripts test",
@@ -31,7 +31,6 @@
     "@types/ws": "7.2.4",
     "lint-staged": "10.2.7",
     "prettier": "2.0.5",
-    "prisma-dbml-generator": "0.2.3",
     "ts-node": "8.10.2",
     "ts-node-dev": "1.0.0-pre.44",
     "typescript": "3.8.3"
