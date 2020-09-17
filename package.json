@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nexus dev",
+    "prebuild": "nexus report",
     "build": "nexus build",
     "start": "node -r dotenv/config dist/api/index.js dotenv_config_path=prisma/.env",
     "test": "inpyjamas-scripts test",
