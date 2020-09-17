@@ -6,9 +6,9 @@ type AuthPayload {
   user: User
 }
 
-input BooleanFilter {
+input BoolFilter {
   equals: Boolean
-  not: Boolean
+  not: NestedBoolFilter
 }
 
 type Camera {
@@ -139,42 +139,42 @@ input CameraCreateWithoutWeathersInput {
 }
 
 input CameraOrderByInput {
-  active: OrderByArg
-  angle: OrderByArg
-  createdAt: OrderByArg
-  geom: OrderByArg
-  hardware: OrderByArg
-  id: OrderByArg
-  location: OrderByArg
-  name: OrderByArg
-  owner: OrderByArg
-  software: OrderByArg
-  softwareHistory: OrderByArg
-  timezone: OrderByArg
-  transformationMatrix: OrderByArg
+  active: SortOrder
+  angle: SortOrder
+  createdAt: SortOrder
+  geom: SortOrder
+  hardware: SortOrder
+  id: SortOrder
+  location: SortOrder
+  name: SortOrder
+  owner: SortOrder
+  software: SortOrder
+  softwareHistory: SortOrder
+  timezone: SortOrder
+  transformationMatrix: SortOrder
 }
 
 input CameraWhereInput {
-  active: BooleanFilter
+  active: BoolFilter
   AND: [CameraWhereInput!]
-  angle: NullableStringFilter
-  counters: CounterFilter
+  angle: StringNullableFilter
+  counters: CounterListRelationFilter
   createdAt: DateTimeFilter
-  geom: NullableStringFilter
-  hardware: NullableStringFilter
+  geom: StringNullableFilter
+  hardware: StringNullableFilter
   id: IntFilter
-  lightningConditions: LightningConditionFilter
+  lightningConditions: LightningConditionListRelationFilter
   location: StringFilter
   name: StringFilter
   NOT: [CameraWhereInput!]
   OR: [CameraWhereInput!]
-  owner: NullableStringFilter
-  software: NullableStringFilter
-  softwareHistory: NullableStringFilter
+  owner: StringNullableFilter
+  software: StringNullableFilter
+  softwareHistory: StringNullableFilter
   timezone: IntFilter
-  trajectories: TrajectoryFilter
-  transformationMatrix: NullableStringFilter
-  weathers: WeatherFilter
+  trajectories: TrajectoryListRelationFilter
+  transformationMatrix: StringNullableFilter
+  weathers: WeatherListRelationFilter
 }
 
 input CameraWhereUniqueInput {
@@ -255,34 +255,34 @@ input CounterCreateWithoutDetectionsInput {
   y2: Float!
 }
 
-input CounterFilter {
+input CounterListRelationFilter {
   every: CounterWhereInput
   none: CounterWhereInput
   some: CounterWhereInput
 }
 
 input CounterOrderByInput {
-  active: OrderByArg
-  cameraId: OrderByArg
-  createdAt: OrderByArg
-  direction: OrderByArg
-  id: OrderByArg
-  line: OrderByArg
-  street: OrderByArg
-  streetId: OrderByArg
-  x1: OrderByArg
-  x2: OrderByArg
-  y1: OrderByArg
-  y2: OrderByArg
+  active: SortOrder
+  cameraId: SortOrder
+  createdAt: SortOrder
+  direction: SortOrder
+  id: SortOrder
+  line: SortOrder
+  street: SortOrder
+  streetId: SortOrder
+  x1: SortOrder
+  x2: SortOrder
+  y1: SortOrder
+  y2: SortOrder
 }
 
 input CounterWhereInput {
-  active: BooleanFilter
+  active: BoolFilter
   AND: [CounterWhereInput!]
   camera: CameraWhereInput
   cameraId: IntFilter
   createdAt: DateTimeFilter
-  detections: DetectionFilter
+  detections: DetectionListRelationFilter
   direction: StringFilter
   id: IntFilter
   line: StringFilter
@@ -301,7 +301,9 @@ input CounterWhereUniqueInput {
 }
 
 """
-Use JavaScript Date object for date/time fields.
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
@@ -312,7 +314,7 @@ input DateTimeFilter {
   in: [DateTime!]
   lt: DateTime
   lte: DateTime
-  not: DateTime
+  not: NestedDateTimeFilter
   notIn: [DateTime!]
 }
 
@@ -356,21 +358,21 @@ input DetectionCreateWithoutDetectionTypeInput {
   y: Float!
 }
 
-input DetectionFilter {
+input DetectionListRelationFilter {
   every: DetectionWhereInput
   none: DetectionWhereInput
   some: DetectionWhereInput
 }
 
 input DetectionOrderByInput {
-  accuracy: OrderByArg
-  counterId: OrderByArg
-  createdAt: OrderByArg
-  detectedAt: OrderByArg
-  detectionTypeId: OrderByArg
-  id: OrderByArg
-  x: OrderByArg
-  y: OrderByArg
+  accuracy: SortOrder
+  counterId: SortOrder
+  createdAt: SortOrder
+  detectedAt: SortOrder
+  detectionTypeId: SortOrder
+  id: SortOrder
+  x: SortOrder
+  y: SortOrder
 }
 
 type DetectionType {
@@ -421,20 +423,20 @@ input DetectionTypeCreateWithoutTrajectoriesInput {
 }
 
 input DetectionTypeOrderByInput {
-  description: OrderByArg
-  id: OrderByArg
-  label: OrderByArg
+  description: SortOrder
+  id: SortOrder
+  label: SortOrder
 }
 
 input DetectionTypeWhereInput {
   AND: [DetectionTypeWhereInput!]
-  description: NullableStringFilter
-  detections: DetectionFilter
+  description: StringNullableFilter
+  detections: DetectionListRelationFilter
   id: IntFilter
   label: StringFilter
   NOT: [DetectionTypeWhereInput!]
   OR: [DetectionTypeWhereInput!]
-  trajectories: TrajectoryFilter
+  trajectories: TrajectoryListRelationFilter
 }
 
 input DetectionTypeWhereUniqueInput {
@@ -468,7 +470,18 @@ input FloatFilter {
   in: [Float!]
   lt: Float
   lte: Float
-  not: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
   notIn: [Float!]
 }
 
@@ -479,7 +492,7 @@ input IntFilter {
   in: [Int!]
   lt: Int
   lte: Int
-  not: Int
+  not: NestedIntFilter
   notIn: [Int!]
 }
 
@@ -507,18 +520,18 @@ input LightningConditionCreateWithoutCameraInput {
   value: Float!
 }
 
-input LightningConditionFilter {
+input LightningConditionListRelationFilter {
   every: LightningConditionWhereInput
   none: LightningConditionWhereInput
   some: LightningConditionWhereInput
 }
 
 input LightningConditionOrderByInput {
-  cameraId: OrderByArg
-  createdAt: OrderByArg
-  id: OrderByArg
-  recordedAt: OrderByArg
-  value: OrderByArg
+  cameraId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  recordedAt: SortOrder
+  value: SortOrder
 }
 
 input LightningConditionWhereInput {
@@ -548,18 +561,56 @@ type Mutation {
   signup(email: String!, name: String, password: String!): AuthPayload
 }
 
-input NullableFloatFilter {
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input NestedFloatFilter {
   equals: Float
   gt: Float
   gte: Float
   in: [Float!]
   lt: Float
   lte: Float
-  not: Float
+  not: NestedFloatFilter
   notIn: [Float!]
 }
 
-input NullableStringFilter {
+input NestedFloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
+  notIn: [Float!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
   contains: String
   endsWith: String
   equals: String
@@ -568,14 +619,23 @@ input NullableStringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
   notIn: [String!]
   startsWith: String
 }
 
-enum OrderByArg {
-  asc
-  desc
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 type Query {
@@ -593,7 +653,7 @@ type Query {
     before: CameraWhereUniqueInput
     first: Int
     last: Int
-    orderBy: CameraOrderByInput
+    orderBy: [CameraOrderByInput!]
     where: CameraWhereInput
   ): [Camera!]!
   allCounters(
@@ -601,7 +661,7 @@ type Query {
     before: CounterWhereUniqueInput
     first: Int
     last: Int
-    orderBy: CounterOrderByInput
+    orderBy: [CounterOrderByInput!]
     where: CounterWhereInput
   ): [Counter!]!
   allDetections(
@@ -609,7 +669,7 @@ type Query {
     before: DetectionWhereUniqueInput
     first: Int
     last: Int
-    orderBy: DetectionOrderByInput
+    orderBy: [DetectionOrderByInput!]
     where: DetectionWhereInput
   ): [Detection!]!
   allDetectionTypes(
@@ -617,7 +677,7 @@ type Query {
     before: DetectionTypeWhereUniqueInput
     first: Int
     last: Int
-    orderBy: DetectionTypeOrderByInput
+    orderBy: [DetectionTypeOrderByInput!]
     where: DetectionTypeWhereInput
   ): [DetectionType!]!
   allLightingConditions(
@@ -625,7 +685,7 @@ type Query {
     before: LightningConditionWhereUniqueInput
     first: Int
     last: Int
-    orderBy: LightningConditionOrderByInput
+    orderBy: [LightningConditionOrderByInput!]
     where: LightningConditionWhereInput
   ): [LightningCondition!]!
   allTrajectories(
@@ -633,7 +693,7 @@ type Query {
     before: TrajectoryWhereUniqueInput
     first: Int
     last: Int
-    orderBy: TrajectoryOrderByInput
+    orderBy: [TrajectoryOrderByInput!]
     where: TrajectoryWhereInput
   ): [Trajectory!]!
   allWeathers(
@@ -641,7 +701,7 @@ type Query {
     before: WeatherWhereUniqueInput
     first: Int
     last: Int
-    orderBy: WeatherOrderByInput
+    orderBy: [WeatherOrderByInput!]
     where: WeatherWhereInput
   ): [Weather!]!
   cameraById(where: CameraWhereUniqueInput!): Camera
@@ -666,6 +726,11 @@ type Query {
   weatherById(where: WeatherWhereUniqueInput!): Weather
 }
 
+enum SortOrder {
+  asc
+  desc
+}
+
 input StringFilter {
   contains: String
   endsWith: String
@@ -675,7 +740,21 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -727,20 +806,20 @@ input TrajectoryCreateWithoutDetectionTypeInput {
   trajectory: String!
 }
 
-input TrajectoryFilter {
+input TrajectoryListRelationFilter {
   every: TrajectoryWhereInput
   none: TrajectoryWhereInput
   some: TrajectoryWhereInput
 }
 
 input TrajectoryOrderByInput {
-  cameraId: OrderByArg
-  detectionTypeId: OrderByArg
-  end: OrderByArg
-  geom: OrderByArg
-  id: OrderByArg
-  start: OrderByArg
-  trajectory: OrderByArg
+  cameraId: SortOrder
+  detectionTypeId: SortOrder
+  end: SortOrder
+  geom: SortOrder
+  id: SortOrder
+  start: SortOrder
+  trajectory: SortOrder
 }
 
 input TrajectoryWhereInput {
@@ -813,42 +892,42 @@ input WeatherCreateWithoutCameraInput {
   windDirection: Float
 }
 
-input WeatherFilter {
+input WeatherListRelationFilter {
   every: WeatherWhereInput
   none: WeatherWhereInput
   some: WeatherWhereInput
 }
 
 input WeatherOrderByInput {
-  cameraId: OrderByArg
-  cloudCoverage: OrderByArg
-  createdAt: OrderByArg
-  humidity: OrderByArg
-  id: OrderByArg
-  pressure: OrderByArg
-  rain: OrderByArg
-  recordedAt: OrderByArg
-  temperature: OrderByArg
-  wind: OrderByArg
-  windDirection: OrderByArg
+  cameraId: SortOrder
+  cloudCoverage: SortOrder
+  createdAt: SortOrder
+  humidity: SortOrder
+  id: SortOrder
+  pressure: SortOrder
+  rain: SortOrder
+  recordedAt: SortOrder
+  temperature: SortOrder
+  wind: SortOrder
+  windDirection: SortOrder
 }
 
 input WeatherWhereInput {
   AND: [WeatherWhereInput!]
   camera: CameraWhereInput
   cameraId: IntFilter
-  cloudCoverage: NullableFloatFilter
+  cloudCoverage: FloatNullableFilter
   createdAt: DateTimeFilter
-  humidity: NullableFloatFilter
+  humidity: FloatNullableFilter
   id: IntFilter
   NOT: [WeatherWhereInput!]
   OR: [WeatherWhereInput!]
-  pressure: NullableFloatFilter
-  rain: NullableFloatFilter
+  pressure: FloatNullableFilter
+  rain: FloatNullableFilter
   recordedAt: DateTimeFilter
-  temperature: NullableFloatFilter
-  wind: NullableFloatFilter
-  windDirection: NullableFloatFilter
+  temperature: FloatNullableFilter
+  wind: FloatNullableFilter
+  windDirection: FloatNullableFilter
 }
 
 input WeatherWhereUniqueInput {

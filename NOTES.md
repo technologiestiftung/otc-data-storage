@@ -2,7 +2,6 @@
 
 Some notes to keep track of while working on the API
 
-
 ## Neuxs docs
 
 https://www.nexusjs.org/#/plugins/prisma
@@ -162,3 +161,40 @@ mutation AddACounter($input: CounterCreateInput!) {
 Review these two guides for updating to the latest state of nexus and Prisma to make this project future proof
 
 - [ ] [https://www.prisma.io/docs/guides/upgrade-from-prisma-1/upgrading-nexus-prisma-to-nexus](https://www.prisma.io/docs/guides/upgrade-from-prisma-1/upgrading-nexus-prisma-to-nexus)
+
+## Rest API Structure
+
+The REST api could have the following structure
+
+```
+HOST/cameras/
+HOST/cameras/:id
+
+HOST/cameras/:id/counters
+HOST/cameras/:id/counters/:id
+
+HOST/cameras/:id/counters/:id/detections
+HOST/cameras/:id/counters/:id/detections/:id
+HOST/cameras/:id/counters/:id/detections/:id/detectiontype
+
+HOST/cameras/:id/counters/:id/trajectories/
+HOST/cameras/:id/counters/:id/trajectories/:id
+HOST/cameras/:id/counters/:id/trajectories/:id/detectiontype
+
+HOST/cameras/:id/weathers
+HOST/cameras/:id/weathers/:id
+
+HOST/cameras/:id/lightningConditions
+HOST/cameras/:id/lightningConditions/:id
+```
+
+We could have some special endpoints like
+
+```
+HOST/detectiontype/:id/detections
+HOST/detectiontype/:id/detections/:id
+HOST/detectiontype/:id/trajectories
+HOST/detectiontype/:id/trajectories/:id
+```
+
+Any more ideas? Or does thatmake sense at all?

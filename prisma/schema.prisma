@@ -10,6 +10,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 model Camera {
   id                   Int                  @default(autoincrement()) @id
   createdAt            DateTime             @default(now())
