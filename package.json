@@ -37,6 +37,7 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
+    "acorn": "8.0.1",
     "bcrypt": "5.0.0",
     "cors": "2.8.5",
     "http-errors": "1.8.0",
