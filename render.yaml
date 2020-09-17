@@ -1,0 +1,19 @@
+services:
+  - type: web
+    region: frankfurt
+    name: otc-data-storage
+    env: node
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthcheck
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: otcdb
+          property: connectionString
+      - key: APP_SECRET
+        generateValue: true
+databases:
+  - name: strapidb
+    databaseName: open-traffic-count
+    region: frankfurt
