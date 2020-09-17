@@ -132,3 +132,4 @@ dist
 .tmp_build/schema.js.map
 .tmp_build/server.js
 .tmp_build/server.js.map
+pg-data

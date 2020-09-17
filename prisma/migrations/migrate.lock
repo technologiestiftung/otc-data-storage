@@ -1,9 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20200602184737-init
-20200602191253-rename-location
-20200603113522-rename-collections
-20200603152336-lowercase-fields
-20200603153312-rename-fields-plural
-20200916135831-users
-20200916142215-user
+20200917145022-init

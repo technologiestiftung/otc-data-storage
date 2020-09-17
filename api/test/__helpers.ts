@@ -17,7 +17,7 @@ export function createTestContext(): TestContext {
 
   afterAll(async () => {
     await ctx.app.stop();
-    await ctx.app.db.client.disconnect();
+    await ctx.app.db.client.$disconnect();
   });
 
   return ctx;

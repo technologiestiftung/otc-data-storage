@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "nexus dev",
     "build": "nexus build",
-    "start": "node node_modules/.build",
-    "start:old": "npm run dev",
+    "start": "node -r dotenv/config dist/api/index.js dotenv_config_path=prisma/.env",
     "test": "inpyjamas-scripts test",
     "clean": "rm -rf dist",
     "lint-staged": "lint-staged",
