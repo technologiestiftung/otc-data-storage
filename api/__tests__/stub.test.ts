@@ -11,17 +11,17 @@ const ctx = createTestContext();
 describe("stub group without a DB", () => {
   test("stub tests", async (done) => {
     // use `ctx` in here
-    await ctx.client.send(`
-    mutation {
-      insertCamera(data: {name: "foo", active: true, location:"street", timezone:0}) {
-        id
-        active
-        name
-        location
-        timezone
-      }
-    }
-  `);
+    //   await ctx.client.send(`
+    //   mutation {
+    //     insertCamera(data: {name: "foo", active: true, location:"street", timezone:0}) {
+    //       id
+    //       active
+    //       name
+    //       location
+    //       timezone
+    //     }
+    //   }
+    // `);
     const createdCamera = await ctx.client.send(`{ allCameras { id } }`);
     expect(createdCamera).toMatchInlineSnapshot(`
       Object {
