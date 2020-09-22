@@ -1,0 +1,297 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "CountDetection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "detectedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "counter",
+      "type": "Counter",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[counterId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "counterId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "detectionType",
+      "type": "DetectionType",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[detectionTypeId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "detectionTypeId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "confidence",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "Trajectory",
+      "type": "Trajectory",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[trajectoryId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CountDetection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CountDetection",
+      "field": "trajectoryId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "Detection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "countDetections",
+      "type": "CountDetection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "active"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "detections"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "countDetections",
+      "type": "CountDetection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "detections"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Trajectory",
+      "field": "countDetections",
+      "type": "CountDetection",
+      "arity": "List"
+    }
+  ]
+}

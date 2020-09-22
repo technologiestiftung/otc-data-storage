@@ -162,11 +162,95 @@ input CameraWhereUniqueInput {
   id: Int
 }
 
+type CountDetection {
+  confidence: Int!
+  counter: Counter!
+  counterId: Int!
+  detectedAt: DateTime!
+  detectionType: DetectionType!
+  detectionTypeId: Int!
+  id: Int!
+}
+
+input CountDetectionCreateManyWithoutCounterInput {
+  connect: [CountDetectionWhereUniqueInput!]
+  create: [CountDetectionCreateWithoutCounterInput!]
+}
+
+input CountDetectionCreateManyWithoutDetectionTypeInput {
+  connect: [CountDetectionWhereUniqueInput!]
+  create: [CountDetectionCreateWithoutDetectionTypeInput!]
+}
+
+input CountDetectionCreateManyWithoutTrajectoryInput {
+  connect: [CountDetectionWhereUniqueInput!]
+  create: [CountDetectionCreateWithoutTrajectoryInput!]
+}
+
+input CountDetectionCreateWithoutCounterInput {
+  confidence: Int!
+  createdAt: DateTime
+  detectedAt: DateTime!
+  detectionType: DetectionTypeCreateOneWithoutCountDetectionsInput!
+  Trajectory: TrajectoryCreateOneWithoutCountDetectionsInput
+}
+
+input CountDetectionCreateWithoutDetectionTypeInput {
+  confidence: Int!
+  counter: CounterCreateOneWithoutCountDetectionsInput!
+  createdAt: DateTime
+  detectedAt: DateTime!
+  Trajectory: TrajectoryCreateOneWithoutCountDetectionsInput
+}
+
+input CountDetectionCreateWithoutTrajectoryInput {
+  confidence: Int!
+  counter: CounterCreateOneWithoutCountDetectionsInput!
+  createdAt: DateTime
+  detectedAt: DateTime!
+  detectionType: DetectionTypeCreateOneWithoutCountDetectionsInput!
+}
+
+input CountDetectionListRelationFilter {
+  every: CountDetectionWhereInput
+  none: CountDetectionWhereInput
+  some: CountDetectionWhereInput
+}
+
+input CountDetectionOrderByInput {
+  confidence: SortOrder
+  counterId: SortOrder
+  createdAt: SortOrder
+  detectedAt: SortOrder
+  detectionTypeId: SortOrder
+  id: SortOrder
+  trajectoryId: SortOrder
+}
+
+input CountDetectionWhereInput {
+  AND: [CountDetectionWhereInput!]
+  confidence: IntFilter
+  counter: CounterWhereInput
+  counterId: IntFilter
+  createdAt: DateTimeFilter
+  detectedAt: DateTimeFilter
+  detectionType: DetectionTypeWhereInput
+  detectionTypeId: IntFilter
+  id: IntFilter
+  NOT: [CountDetectionWhereInput!]
+  OR: [CountDetectionWhereInput!]
+  Trajectory: TrajectoryWhereInput
+  trajectoryId: IntNullableFilter
+}
+
+input CountDetectionWhereUniqueInput {
+  id: Int
+}
+
 type Counter {
-  active: Boolean!
   camera: Camera!
   cameraId: Int!
-  detections(after: DetectionWhereUniqueInput, before: DetectionWhereUniqueInput, first: Int, last: Int): [Detection!]!
+  countDetections(after: CountDetectionWhereUniqueInput, before: CountDetectionWhereUniqueInput, first: Int, last: Int): [CountDetection!]!
   direction: String!
   id: Int!
   line: String!
@@ -179,10 +263,9 @@ type Counter {
 }
 
 input CounterCreateInput {
-  active: Boolean!
   camera: CameraCreateOneWithoutCountersInput!
+  countDetections: CountDetectionCreateManyWithoutCounterInput
   createdAt: DateTime
-  detections: DetectionCreateManyWithoutCounterInput
   direction: String!
   line: String!
   street: String!
@@ -198,15 +281,14 @@ input CounterCreateManyWithoutCameraInput {
   create: [CounterCreateWithoutCameraInput!]
 }
 
-input CounterCreateOneWithoutDetectionsInput {
+input CounterCreateOneWithoutCountDetectionsInput {
   connect: CounterWhereUniqueInput
-  create: CounterCreateWithoutDetectionsInput
+  create: CounterCreateWithoutCountDetectionsInput
 }
 
 input CounterCreateWithoutCameraInput {
-  active: Boolean!
+  countDetections: CountDetectionCreateManyWithoutCounterInput
   createdAt: DateTime
-  detections: DetectionCreateManyWithoutCounterInput
   direction: String!
   line: String!
   street: String!
@@ -217,8 +299,7 @@ input CounterCreateWithoutCameraInput {
   y2: Float!
 }
 
-input CounterCreateWithoutDetectionsInput {
-  active: Boolean!
+input CounterCreateWithoutCountDetectionsInput {
   camera: CameraCreateOneWithoutCountersInput!
   createdAt: DateTime
   direction: String!
@@ -238,7 +319,6 @@ input CounterListRelationFilter {
 }
 
 input CounterOrderByInput {
-  active: SortOrder
   cameraId: SortOrder
   createdAt: SortOrder
   direction: SortOrder
@@ -253,12 +333,11 @@ input CounterOrderByInput {
 }
 
 input CounterWhereInput {
-  active: BoolFilter
   AND: [CounterWhereInput!]
   camera: CameraWhereInput
   cameraId: IntFilter
+  countDetections: CountDetectionListRelationFilter
   createdAt: DateTimeFilter
-  detections: DetectionListRelationFilter
   direction: StringFilter
   id: IntFilter
   line: StringFilter
@@ -294,81 +373,24 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
-type Detection {
-  accuracy: Float!
-  counter: Counter!
-  counterId: Int!
-  detectedAt: DateTime!
-  detectionType: DetectionType!
-  detectionTypeId: Int!
-  id: Int!
-  x: Float!
-  y: Float!
-}
-
-input DetectionCreateManyWithoutCounterInput {
-  connect: [DetectionWhereUniqueInput!]
-  create: [DetectionCreateWithoutCounterInput!]
-}
-
-input DetectionCreateManyWithoutDetectionTypeInput {
-  connect: [DetectionWhereUniqueInput!]
-  create: [DetectionCreateWithoutDetectionTypeInput!]
-}
-
-input DetectionCreateWithoutCounterInput {
-  accuracy: Float!
-  createdAt: DateTime
-  detectedAt: DateTime!
-  detectionType: DetectionTypeCreateOneWithoutDetectionsInput!
-  x: Float!
-  y: Float!
-}
-
-input DetectionCreateWithoutDetectionTypeInput {
-  accuracy: Float!
-  counter: CounterCreateOneWithoutDetectionsInput!
-  createdAt: DateTime
-  detectedAt: DateTime!
-  x: Float!
-  y: Float!
-}
-
-input DetectionListRelationFilter {
-  every: DetectionWhereInput
-  none: DetectionWhereInput
-  some: DetectionWhereInput
-}
-
-input DetectionOrderByInput {
-  accuracy: SortOrder
-  counterId: SortOrder
-  createdAt: SortOrder
-  detectedAt: SortOrder
-  detectionTypeId: SortOrder
-  id: SortOrder
-  x: SortOrder
-  y: SortOrder
-}
-
 type DetectionType {
+  countDetections(after: CountDetectionWhereUniqueInput, before: CountDetectionWhereUniqueInput, first: Int, last: Int): [CountDetection!]!
   description: String
-  detections(after: DetectionWhereUniqueInput, before: DetectionWhereUniqueInput, first: Int, last: Int): [Detection!]!
   id: Int!
   label: String!
   trajectories(after: TrajectoryWhereUniqueInput, before: TrajectoryWhereUniqueInput, first: Int, last: Int): [Trajectory!]!
 }
 
 input DetectionTypeCreateInput {
+  countDetections: CountDetectionCreateManyWithoutDetectionTypeInput
   description: String
-  detections: DetectionCreateManyWithoutDetectionTypeInput
   label: String!
   trajectories: TrajectoryCreateManyWithoutDetectionTypeInput
 }
 
-input DetectionTypeCreateOneWithoutDetectionsInput {
+input DetectionTypeCreateOneWithoutCountDetectionsInput {
   connect: DetectionTypeWhereUniqueInput
-  create: DetectionTypeCreateWithoutDetectionsInput
+  create: DetectionTypeCreateWithoutCountDetectionsInput
 }
 
 input DetectionTypeCreateOneWithoutTrajectoriesInput {
@@ -376,15 +398,15 @@ input DetectionTypeCreateOneWithoutTrajectoriesInput {
   create: DetectionTypeCreateWithoutTrajectoriesInput
 }
 
-input DetectionTypeCreateWithoutDetectionsInput {
+input DetectionTypeCreateWithoutCountDetectionsInput {
   description: String
   label: String!
   trajectories: TrajectoryCreateManyWithoutDetectionTypeInput
 }
 
 input DetectionTypeCreateWithoutTrajectoriesInput {
+  countDetections: CountDetectionCreateManyWithoutDetectionTypeInput
   description: String
-  detections: DetectionCreateManyWithoutDetectionTypeInput
   label: String!
 }
 
@@ -396,8 +418,8 @@ input DetectionTypeOrderByInput {
 
 input DetectionTypeWhereInput {
   AND: [DetectionTypeWhereInput!]
+  countDetections: CountDetectionListRelationFilter
   description: StringNullableFilter
-  detections: DetectionListRelationFilter
   id: IntFilter
   label: StringFilter
   NOT: [DetectionTypeWhereInput!]
@@ -406,26 +428,6 @@ input DetectionTypeWhereInput {
 }
 
 input DetectionTypeWhereUniqueInput {
-  id: Int
-}
-
-input DetectionWhereInput {
-  accuracy: FloatFilter
-  AND: [DetectionWhereInput!]
-  counter: CounterWhereInput
-  counterId: IntFilter
-  createdAt: DateTimeFilter
-  detectedAt: DateTimeFilter
-  detectionType: DetectionTypeWhereInput
-  detectionTypeId: IntFilter
-  id: IntFilter
-  NOT: [DetectionWhereInput!]
-  OR: [DetectionWhereInput!]
-  x: FloatFilter
-  y: FloatFilter
-}
-
-input DetectionWhereUniqueInput {
   id: Int
 }
 
@@ -459,6 +461,17 @@ input IntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -576,6 +589,17 @@ input NestedIntFilter {
   notIn: [Int!]
 }
 
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
 input NestedStringFilter {
   contains: String
   endsWith: String
@@ -611,13 +635,14 @@ type Query {
     active: Boolean
   ): [Camera!]
   allCameras(after: CameraWhereUniqueInput, before: CameraWhereUniqueInput, first: Int, last: Int, orderBy: [CameraOrderByInput!], where: CameraWhereInput): [Camera!]!
+  allCountDetections(after: CountDetectionWhereUniqueInput, before: CountDetectionWhereUniqueInput, first: Int, last: Int, orderBy: [CountDetectionOrderByInput!], where: CountDetectionWhereInput): [CountDetection!]!
   allCounters(after: CounterWhereUniqueInput, before: CounterWhereUniqueInput, first: Int, last: Int, orderBy: [CounterOrderByInput!], where: CounterWhereInput): [Counter!]!
-  allDetections(after: DetectionWhereUniqueInput, before: DetectionWhereUniqueInput, first: Int, last: Int, orderBy: [DetectionOrderByInput!], where: DetectionWhereInput): [Detection!]!
   allDetectionTypes(after: DetectionTypeWhereUniqueInput, before: DetectionTypeWhereUniqueInput, first: Int, last: Int, orderBy: [DetectionTypeOrderByInput!], where: DetectionTypeWhereInput): [DetectionType!]!
   allLightingConditions(after: LightningConditionWhereUniqueInput, before: LightningConditionWhereUniqueInput, first: Int, last: Int, orderBy: [LightningConditionOrderByInput!], where: LightningConditionWhereInput): [LightningCondition!]!
   allTrajectories(after: TrajectoryWhereUniqueInput, before: TrajectoryWhereUniqueInput, first: Int, last: Int, orderBy: [TrajectoryOrderByInput!], where: TrajectoryWhereInput): [Trajectory!]!
   allWeathers(after: WeatherWhereUniqueInput, before: WeatherWhereUniqueInput, first: Int, last: Int, orderBy: [WeatherOrderByInput!], where: WeatherWhereInput): [Weather!]!
   cameraById(where: CameraWhereUniqueInput!): Camera
+  countDetectionById(where: CountDetectionWhereUniqueInput!): CountDetection
   counterById(where: CounterWhereUniqueInput!): Counter
 
   """Get all counters from a specific camera"""
@@ -625,7 +650,6 @@ type Query {
     """The id (Int) of the camera"""
     cameraId: Int!
   ): [Counter!]
-  detectionById(where: DetectionWhereUniqueInput!): Detection
   detectionTypeById(where: DetectionTypeWhereUniqueInput!): DetectionType
   lightningConditionById(where: LightningConditionWhereUniqueInput!): LightningCondition
   me: User
@@ -680,6 +704,7 @@ type Trajectory {
 
 input TrajectoryCreateInput {
   camera: CameraCreateOneWithoutTrajectoriesInput!
+  countDetections: CountDetectionCreateManyWithoutTrajectoryInput
   detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
   end: DateTime!
   geom: String!
@@ -697,7 +722,22 @@ input TrajectoryCreateManyWithoutDetectionTypeInput {
   create: [TrajectoryCreateWithoutDetectionTypeInput!]
 }
 
+input TrajectoryCreateOneWithoutCountDetectionsInput {
+  connect: TrajectoryWhereUniqueInput
+  create: TrajectoryCreateWithoutCountDetectionsInput
+}
+
 input TrajectoryCreateWithoutCameraInput {
+  countDetections: CountDetectionCreateManyWithoutTrajectoryInput
+  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
+  end: DateTime!
+  geom: String!
+  start: DateTime!
+  trajectory: String!
+}
+
+input TrajectoryCreateWithoutCountDetectionsInput {
+  camera: CameraCreateOneWithoutTrajectoriesInput!
   detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
   end: DateTime!
   geom: String!
@@ -707,6 +747,7 @@ input TrajectoryCreateWithoutCameraInput {
 
 input TrajectoryCreateWithoutDetectionTypeInput {
   camera: CameraCreateOneWithoutTrajectoriesInput!
+  countDetections: CountDetectionCreateManyWithoutTrajectoryInput
   end: DateTime!
   geom: String!
   start: DateTime!
@@ -733,6 +774,7 @@ input TrajectoryWhereInput {
   AND: [TrajectoryWhereInput!]
   camera: CameraWhereInput
   cameraId: IntFilter
+  countDetections: CountDetectionListRelationFilter
   detectionType: DetectionTypeWhereInput
   detectionTypeId: IntFilter
   end: DateTimeFilter

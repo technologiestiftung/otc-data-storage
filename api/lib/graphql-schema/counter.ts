@@ -4,7 +4,7 @@ schema.objectType({
   name: "Counter",
   definition(t) {
     t.model.id();
-    t.model.active();
+    // t.model.active();
     t.model.camera();
     t.model.cameraId();
     t.model.street();
@@ -15,6 +15,6 @@ schema.objectType({
     t.model.y2();
     t.model.line();
     t.model.direction();
-    t.model.detections({ type: "Detection" });
+    t.model.countDetections({ type: "CountDetection" });
   },
 });

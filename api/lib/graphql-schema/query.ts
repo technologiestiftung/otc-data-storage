@@ -5,7 +5,7 @@ schema.queryType({
   definition(t) {
     t.crud.camera({ alias: "cameraById" });
     t.crud.counter({ alias: "counterById" });
-    t.crud.detection({ alias: "detectionById" });
+    t.crud.countDetection({ alias: "countDetectionById" });
     t.crud.detectionType({ alias: "detectionTypeById" });
     t.crud.trajectory({ alias: "trajectoryById" });
     t.crud.weather({ alias: "weatherById" });
@@ -17,8 +17,8 @@ schema.queryType({
     });
     t.crud.cameras({ alias: "allCameras", ordering: true, filtering: true });
     t.crud.weathers({ alias: "allWeathers", ordering: true, filtering: true });
-    t.crud.detections({
-      alias: "allDetections",
+    t.crud.countDetections({
+      alias: "allCountDetections",
       ordering: true,
       filtering: true,
     });
