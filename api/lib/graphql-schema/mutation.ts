@@ -7,7 +7,7 @@ schema.mutationType({
   definition(t) {
     t.crud.createOneCamera({ alias: "insertCamera" });
     t.crud.createOneCounter({ alias: "insertCounter" });
-    t.crud.createOneCamera({ alias: "insertDetection" });
+    t.crud.createOneDetection({ alias: "insertDetection" });
     t.crud.createOneDetectionType({ alias: "insertDetectionType" });
     t.crud.createOneTrajectory({ alias: "insertTrajectory" });
     t.crud.createOneWeather({ alias: "insertWeather" });

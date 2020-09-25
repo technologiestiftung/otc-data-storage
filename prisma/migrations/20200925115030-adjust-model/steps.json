@@ -1,0 +1,585 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "Recording"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "recordingStart",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "recordingEnd",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "counters",
+      "type": "Counter",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "Camera",
+      "type": "Camera",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[cameraId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "cameraId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Detection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "detectedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "counter",
+      "type": "Counter",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[counterId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "counter"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "counterId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "detectionType",
+      "type": "DetectionType",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[detectionTypeId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "detectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "detectionTypeId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "confidence",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "Trajectory",
+      "type": "Trajectory",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[trajectoryId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Trajectory"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "trajectoryId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "CountDetection"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Camera",
+      "field": "recordings",
+      "type": "Recording",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Camera",
+      "field": "counters"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "Recording",
+      "type": "Recording",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[recordingId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "recordingId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "DetectionType",
+      "type": "DetectionType",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "DetectionType"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "DetectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[detectionTypeId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Counter",
+          "field": "DetectionType"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Counter",
+      "field": "detectionTypeId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "camera"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "cameraId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "countDetections"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "counters",
+      "type": "Counter",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DetectionType",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "countDetections"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Trajectory",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Trajectory",
+      "field": "countDetections"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Camera",
+      "field": "recordings",
+      "type": "Recording",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "Camera",
+      "type": "Camera",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[cameraId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Recording",
+          "field": "Camera"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "cameraId",
+      "type": "Int",
+      "arity": "Optional"
+    }
+  ]
+}

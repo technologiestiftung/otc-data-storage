@@ -1,7 +1,7 @@
 import { schema } from "nexus";
 
 schema.objectType({
-  name: "CountDetection",
+  name: "Detection",
   definition(t) {
     t.model.id();
     t.model.detectedAt();

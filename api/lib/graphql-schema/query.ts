@@ -5,20 +5,33 @@ schema.queryType({
   definition(t) {
     t.crud.camera({ alias: "cameraById" });
     t.crud.counter({ alias: "counterById" });
-    t.crud.countDetection({ alias: "countDetectionById" });
+    t.crud.recording({ alias: "recordingById" });
+    t.crud.detection({ alias: "detectionById" });
     t.crud.detectionType({ alias: "detectionTypeById" });
     t.crud.trajectory({ alias: "trajectoryById" });
     t.crud.weather({ alias: "weatherById" });
     t.crud.lightningCondition({ alias: "lightningConditionById" });
+
+    // multiple
     t.crud.lightningConditions({
       alias: "allLightingConditions",
       ordering: true,
       filtering: true,
     });
     t.crud.cameras({ alias: "allCameras", ordering: true, filtering: true });
+    t.crud.recordings({
+      alias: "allRecordings",
+      ordering: true,
+      filtering: true,
+    });
+    t.crud.counters({
+      alias: "allCounters",
+      ordering: true,
+      filtering: true,
+    });
     t.crud.weathers({ alias: "allWeathers", ordering: true, filtering: true });
-    t.crud.countDetections({
-      alias: "allCountDetections",
+    t.crud.detections({
+      alias: "allDetections",
       ordering: true,
       filtering: true,
     });
@@ -32,11 +45,7 @@ schema.queryType({
       ordering: true,
       filtering: true,
     });
-    t.crud.counters({
-      alias: "allCounters",
-      ordering: true,
-      filtering: true,
-    });
+
     t.field("me", {
       type: "User",
       async resolve(_root, _args, ctx) {
@@ -63,41 +72,41 @@ schema.queryType({
       },
     });
 
-    t.list.field("countersByCameraId", {
+    t.list.field("countersByRecordingId", {
       type: "Counter",
-      description: "Get all counters from a specific camera",
+      description: "Get all counters from a specific recording",
       args: {
-        cameraId: schema.intArg({
+        recordingId: schema.intArg({
           nullable: false,
-          description: "The id (Int) of the camera",
+          description: "The id (Int) of the recording",
         }),
       },
-      resolve: (_, { cameraId }, ctx) => {
+      resolve: (_, { recordingId }, ctx) => {
         return ctx.db.counter.findMany({
-          where: { cameraId: cameraId },
+          where: { recordingId: recordingId },
         });
       },
     });
 
-    t.list.field("allCameraByActivity", {
-      type: "Camera",
-      description:
-        "Get all cameras. Optionally you can filter by active (boolean) value",
-      args: {
-        active: schema.booleanArg({
-          required: false,
-          description: "Filter camera by active value",
-        }),
-      },
-      resolve: (_, { active }, ctx) => {
-        let opts;
-        if (active !== null || active !== undefined) {
-          opts = { where: { active: { equals: active as boolean } } };
-        } else {
-          opts = undefined;
-        }
-        return ctx.db.camera.findMany(opts);
-      },
-    });
+    // t.list.field("allCameraByActivity", {
+    //   type: "Camera",
+    //   description:
+    //     "Get all cameras. Optionally you can filter by active (boolean) value",
+    //   args: {
+    //     active: schema.booleanArg({
+    //       required: false,
+    //       description: "Filter camera by active value",
+    //     }),
+    //   },
+    //   resolve: (_, { active }, ctx) => {
+    //     let opts;
+    //     if (active !== null || active !== undefined) {
+    //       opts = { where: { active: { equals: active as boolean } } };
+    //     } else {
+    //       opts = undefined;
+    //     }
+    //     return ctx.db.camera.findMany(opts);
+    //   },
+    // });
   },
 });

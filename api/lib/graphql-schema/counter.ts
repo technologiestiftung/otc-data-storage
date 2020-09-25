@@ -5,8 +5,8 @@ schema.objectType({
   definition(t) {
     t.model.id();
     // t.model.active();
-    t.model.camera();
-    t.model.cameraId();
+    // t.model.camera();
+    // t.model.cameraId();
     t.model.street();
     t.model.streetId();
     t.model.x1();
@@ -15,6 +15,7 @@ schema.objectType({
     t.model.y2();
     t.model.line();
     t.model.direction();
-    t.model.countDetections({ type: "CountDetection" });
+    t.model.recordingId();
+    t.model.detections({ type: "Detection" });
   },
 });

@@ -1,0 +1,41 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Counter",
+      "field": "Recording",
+      "arity": "Required"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Counter",
+      "field": "recordingId",
+      "arity": "Required"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Counter",
+      "field": "DetectionType",
+      "arity": "Required"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Counter",
+      "field": "detectionTypeId",
+      "arity": "Required"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Recording",
+      "field": "Camera",
+      "arity": "Required"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Recording",
+      "field": "cameraId",
+      "arity": "Required"
+    }
+  ]
+}

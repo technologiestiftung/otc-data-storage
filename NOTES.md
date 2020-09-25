@@ -2,6 +2,16 @@
 
 Some notes to keep track of while working on the API
 
+## Api structure
+
+cameras/:id/recordings/:id/counter/:id/detections/:id
+cameras/:id/recordings/:id/trajectories/:id
+? trajectories/:id ?
+
+tracker relates to trajectories
+
+A detection as an optional 1to1 relation to a trajectory object
+
 ## Neuxs docs
 
 https://www.nexusjs.org/#/plugins/prisma

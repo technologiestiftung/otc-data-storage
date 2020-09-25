@@ -6,7 +6,7 @@ schema.objectType({
     t.model.id();
     t.model.label();
     t.model.description();
-    t.model.countDetections({ type: "CountDetection" });
+    t.model.detections({ type: "Detection" });
     t.model.trajectories({ type: "Trajectory" });
   },
 });

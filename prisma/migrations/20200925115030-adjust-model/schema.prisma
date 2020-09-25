@@ -3,12 +3,12 @@
 
 // datasource db {
 //   provider = "sqlite"
-//   url      = "file:./dev.db"
+//   url = "***"
 // }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -37,11 +37,11 @@ model Camera {
   geom                 String?
   // Geometry(Line, 4326)
   angle                String?
+  recordings           Recording[]
   trajectories         Trajectory[]
   weathers             Weather[]
   lightningConditions  LightningCondition[]
   // Counter              Counter[]
-  recordings           Recording[]
 }
 
 model Recording {
@@ -50,9 +50,8 @@ model Recording {
   recordingStart DateTime
   recordingEnd   DateTime
   counters       Counter[]
-
-  camera   Camera @relation(fields: [cameraId], references: [id])
-  cameraId Int
+  Camera         Camera?   @relation(fields: [cameraId], references: [id])
+  cameraId       Int?
 }
 
 // Counter should be equivalent to Counter
@@ -85,10 +84,10 @@ model Counter {
   // - right
   direction       String
   detections      Detection[]
-  recording       Recording     @relation(fields: [recordingId], references: [id])
-  recordingId     Int
-  detectionType   DetectionType @relation(fields: [detectionTypeId], references: [id])
-  detectionTypeId Int
+  Recording       Recording?     @relation(fields: [recordingId], references: [id])
+  recordingId     Int?
+  DetectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
+  detectionTypeId Int?
 }
 
 // is there also a detection object which holds all the objects
@@ -106,7 +105,7 @@ model Detection {
   // x               Float
   // y               Float
   // could have a relation to the trajectories
-  trajectory      Trajectory?   @relation(fields: [trajectoryId], references: [id])
+  Trajectory      Trajectory?   @relation(fields: [trajectoryId], references: [id])
   trajectoryId    Int?
 }
 

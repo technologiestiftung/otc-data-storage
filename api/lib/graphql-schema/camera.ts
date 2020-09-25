@@ -15,7 +15,7 @@ schema.objectType({
     t.model.hardware();
     t.model.angle();
     t.model.geom();
-    t.model.counters({ type: "Counter" });
+    t.model.recordings({ type: "Recording" });
     t.model.trajectories({ type: "Trajectory" });
     t.model.weathers({ type: "Weather" });
     t.model.lightningConditions({ type: "LightningCondition" });
