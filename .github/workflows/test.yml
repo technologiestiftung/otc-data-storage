@@ -4,7 +4,7 @@
 name: Node.js CI
 
 env:
-  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/otc?schema=public"
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres?schema=public"
 on:
   push:
     branches: [master]
