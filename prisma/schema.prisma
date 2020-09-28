@@ -22,7 +22,7 @@ generator client {
 model Camera {
   id                   Int                  @default(autoincrement()) @id
   createdAt            DateTime             @default(now())
-  active               Boolean
+  active               Boolean // deprecated
   name                 String
   location             String
   timezone             Int
@@ -50,9 +50,8 @@ model Recording {
   recordingStart DateTime
   recordingEnd   DateTime
   counters       Counter[]
-
-  camera   Camera @relation(fields: [cameraId], references: [id])
-  cameraId Int
+  camera         Camera?   @relation(fields: [cameraId], references: [id])
+  cameraId       Int?
 }
 
 // Counter should be equivalent to Counter
@@ -61,10 +60,6 @@ model Recording {
 model Counter {
   id        Int      @default(autoincrement()) @id
   createdAt DateTime @default(now())
-  // active    Boolean
-  // camera    Camera   @relation(fields: [cameraId], references: [id])
-  // cameraId  Int
-  // manually
   street    String
   // manually
   streetId  String // or Int?
@@ -85,29 +80,27 @@ model Counter {
   // - right
   direction       String
   detections      Detection[]
-  recording       Recording     @relation(fields: [recordingId], references: [id])
-  recordingId     Int
-  detectionType   DetectionType @relation(fields: [detectionTypeId], references: [id])
-  detectionTypeId Int
+  recording       Recording?     @relation(fields: [recordingId], references: [id])
+  recordingId     Int?
+  detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
+  detectionTypeId Int?
 }
 
 // is there also a detection object which holds all the objects
 // of every frame detected?
 // https://opendatacam.github.io/opendatacam/apidoc/#api-Recording-Counter_data
 model Detection {
-  id              Int           @default(autoincrement()) @id
-  createdAt       DateTime      @default(now())
+  id              Int            @default(autoincrement()) @id
+  createdAt       DateTime       @default(now())
   detectedAt      DateTime
-  counter         Counter       @relation(fields: [counterId], references: [id])
-  counterId       Int
-  detectionType   DetectionType @relation(fields: [detectionTypeId], references: [id])
-  detectionTypeId Int
   confidence      Int
-  // x               Float
-  // y               Float
   // could have a relation to the trajectories
-  trajectory      Trajectory?   @relation(fields: [trajectoryId], references: [id])
+  trajectory      Trajectory?    @relation(fields: [trajectoryId], references: [id])
   trajectoryId    Int?
+  counter         Counter?       @relation(fields: [counterId], references: [id])
+  counterId       Int?
+  detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
+  detectionTypeId Int?
 }
 
 model DetectionType {
@@ -124,26 +117,25 @@ model DetectionType {
 // https://opendatacam.github.io/opendatacam/apidoc/#api-Recording-Tracker_data
 //
 model Trajectory {
-  id         Int    @default(autoincrement()) @id
-  camera     Camera @relation(fields: [cameraId], references: [id])
-  cameraId   Int
+  id Int @default(autoincrement()) @id
+
   // Geometry(LineStringM, CUSTOM_ID)
   trajectory String
 
   // Geometry(LineStringM, 4326)
-  geom            String
-  detectionType   DetectionType @relation(fields: [detectionTypeId], references: [id])
-  detectionTypeId Int
-  start           DateTime
-  end             DateTime
-  detections      Detection[]
+  geom       String
+  start      DateTime
+  end        DateTime
+  detections Detection[]
 
+  detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
+  detectionTypeId Int?
+  camera          Camera?        @relation(fields: [cameraId], references: [id])
+  cameraId        Int?
 }
 
 model Weather {
   id            Int      @default(autoincrement()) @id
-  camera        Camera   @relation(fields: [cameraId], references: [id])
-  cameraId      Int
   createdAt     DateTime @default(now())
   recordedAt    DateTime
   humidity      Float?
@@ -153,17 +145,19 @@ model Weather {
   temperature   Float?
   wind          Float?
   windDirection Float?
+  camera        Camera?  @relation(fields: [cameraId], references: [id])
+  cameraId      Int?
 }
 
 // could also be some sensordata taken from the
 // enviro plus
 model LightningCondition {
   id         Int      @default(autoincrement()) @id
-  camera     Camera   @relation(fields: [cameraId], references: [id])
-  cameraId   Int
   createdAt  DateTime @default(now())
   recordedAt DateTime
   value      Float
+  camera     Camera?  @relation(fields: [cameraId], references: [id])
+  cameraId   Int?
 }
 
 model User {
