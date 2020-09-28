@@ -191,7 +191,7 @@ type Counter {
   direction: String!
   id: Int!
   line: String!
-  recordingId: Int!
+  recordingId: Int
   street: String!
   streetId: String!
   x1: Float!
@@ -203,10 +203,10 @@ type Counter {
 input CounterCreateInput {
   createdAt: DateTime
   detections: DetectionCreateManyWithoutCounterInput
-  detectionType: DetectionTypeCreateOneWithoutCountersInput!
+  detectionType: DetectionTypeCreateOneWithoutCountersInput
   direction: String!
   line: String!
-  recording: RecordingCreateOneWithoutCountersInput!
+  recording: RecordingCreateOneWithoutCountersInput
   street: String!
   streetId: String!
   x1: Float!
@@ -232,10 +232,10 @@ input CounterCreateOneWithoutDetectionsInput {
 
 input CounterCreateWithoutDetectionsInput {
   createdAt: DateTime
-  detectionType: DetectionTypeCreateOneWithoutCountersInput!
+  detectionType: DetectionTypeCreateOneWithoutCountersInput
   direction: String!
   line: String!
-  recording: RecordingCreateOneWithoutCountersInput!
+  recording: RecordingCreateOneWithoutCountersInput
   street: String!
   streetId: String!
   x1: Float!
@@ -249,7 +249,7 @@ input CounterCreateWithoutDetectionTypeInput {
   detections: DetectionCreateManyWithoutCounterInput
   direction: String!
   line: String!
-  recording: RecordingCreateOneWithoutCountersInput!
+  recording: RecordingCreateOneWithoutCountersInput
   street: String!
   streetId: String!
   x1: Float!
@@ -261,7 +261,7 @@ input CounterCreateWithoutDetectionTypeInput {
 input CounterCreateWithoutRecordingInput {
   createdAt: DateTime
   detections: DetectionCreateManyWithoutCounterInput
-  detectionType: DetectionTypeCreateOneWithoutCountersInput!
+  detectionType: DetectionTypeCreateOneWithoutCountersInput
   direction: String!
   line: String!
   street: String!
@@ -298,14 +298,14 @@ input CounterWhereInput {
   createdAt: DateTimeFilter
   detections: DetectionListRelationFilter
   detectionType: DetectionTypeWhereInput
-  detectionTypeId: IntFilter
+  detectionTypeId: IntNullableFilter
   direction: StringFilter
   id: IntFilter
   line: StringFilter
   NOT: [CounterWhereInput!]
   OR: [CounterWhereInput!]
   recording: RecordingWhereInput
-  recordingId: IntFilter
+  recordingId: IntNullableFilter
   street: StringFilter
   streetId: StringFilter
   x1: FloatFilter
@@ -338,20 +338,20 @@ input DateTimeFilter {
 
 type Detection {
   confidence: Int!
-  counter: Counter!
-  counterId: Int!
+  counter: Counter
+  counterId: Int
   detectedAt: DateTime!
-  detectionType: DetectionType!
-  detectionTypeId: Int!
+  detectionType: DetectionType
+  detectionTypeId: Int
   id: Int!
 }
 
 input DetectionCreateInput {
   confidence: Int!
-  counter: CounterCreateOneWithoutDetectionsInput!
+  counter: CounterCreateOneWithoutDetectionsInput
   createdAt: DateTime
   detectedAt: DateTime!
-  detectionType: DetectionTypeCreateOneWithoutDetectionsInput!
+  detectionType: DetectionTypeCreateOneWithoutDetectionsInput
   trajectory: TrajectoryCreateOneWithoutDetectionsInput
 }
 
@@ -374,13 +374,13 @@ input DetectionCreateWithoutCounterInput {
   confidence: Int!
   createdAt: DateTime
   detectedAt: DateTime!
-  detectionType: DetectionTypeCreateOneWithoutDetectionsInput!
+  detectionType: DetectionTypeCreateOneWithoutDetectionsInput
   trajectory: TrajectoryCreateOneWithoutDetectionsInput
 }
 
 input DetectionCreateWithoutDetectionTypeInput {
   confidence: Int!
-  counter: CounterCreateOneWithoutDetectionsInput!
+  counter: CounterCreateOneWithoutDetectionsInput
   createdAt: DateTime
   detectedAt: DateTime!
   trajectory: TrajectoryCreateOneWithoutDetectionsInput
@@ -388,10 +388,10 @@ input DetectionCreateWithoutDetectionTypeInput {
 
 input DetectionCreateWithoutTrajectoryInput {
   confidence: Int!
-  counter: CounterCreateOneWithoutDetectionsInput!
+  counter: CounterCreateOneWithoutDetectionsInput
   createdAt: DateTime
   detectedAt: DateTime!
-  detectionType: DetectionTypeCreateOneWithoutDetectionsInput!
+  detectionType: DetectionTypeCreateOneWithoutDetectionsInput
 }
 
 input DetectionListRelationFilter {
@@ -498,11 +498,11 @@ input DetectionWhereInput {
   AND: [DetectionWhereInput!]
   confidence: IntFilter
   counter: CounterWhereInput
-  counterId: IntFilter
+  counterId: IntNullableFilter
   createdAt: DateTimeFilter
   detectedAt: DateTimeFilter
   detectionType: DetectionTypeWhereInput
-  detectionTypeId: IntFilter
+  detectionTypeId: IntNullableFilter
   id: IntFilter
   NOT: [DetectionWhereInput!]
   OR: [DetectionWhereInput!]
@@ -564,8 +564,8 @@ The `JSON` scalar type represents JSON objects as specified by [ECMA-404](http:/
 scalar Json
 
 type LightningCondition {
-  camera: Camera!
-  cameraId: Int!
+  camera: Camera
+  cameraId: Int
   id: Int!
   recordedAt: DateTime!
   value: Float!
@@ -599,7 +599,7 @@ input LightningConditionOrderByInput {
 input LightningConditionWhereInput {
   AND: [LightningConditionWhereInput!]
   camera: CameraWhereInput
-  cameraId: IntFilter
+  cameraId: IntNullableFilter
   createdAt: DateTimeFilter
   id: IntFilter
   NOT: [LightningConditionWhereInput!]
@@ -800,8 +800,8 @@ type Query {
 }
 
 type Recording {
-  camera: Camera!
-  cameraId: Int!
+  camera: Camera
+  cameraId: Int
   counters(
     after: CounterWhereUniqueInput
     before: CounterWhereUniqueInput
@@ -831,7 +831,7 @@ input RecordingCreateWithoutCameraInput {
 }
 
 input RecordingCreateWithoutCountersInput {
-  camera: CameraCreateOneWithoutRecordingsInput!
+  camera: CameraCreateOneWithoutRecordingsInput
   createdAt: DateTime
   recordingEnd: DateTime!
   recordingStart: DateTime!
@@ -854,7 +854,7 @@ input RecordingOrderByInput {
 input RecordingWhereInput {
   AND: [RecordingWhereInput!]
   camera: CameraWhereInput
-  cameraId: IntFilter
+  cameraId: IntNullableFilter
   counters: CounterListRelationFilter
   createdAt: DateTimeFilter
   id: IntFilter
@@ -902,10 +902,10 @@ input StringNullableFilter {
 }
 
 type Trajectory {
-  camera: Camera!
-  cameraId: Int!
-  detectionType: DetectionType!
-  detectionTypeId: Int!
+  camera: Camera
+  cameraId: Int
+  detectionType: DetectionType
+  detectionTypeId: Int
   end: DateTime!
   geom: String!
   id: Int!
@@ -914,9 +914,9 @@ type Trajectory {
 }
 
 input TrajectoryCreateInput {
-  camera: CameraCreateOneWithoutTrajectoriesInput!
+  camera: CameraCreateOneWithoutTrajectoriesInput
   detections: DetectionCreateManyWithoutTrajectoryInput
-  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
+  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput
   end: DateTime!
   geom: String!
   start: DateTime!
@@ -940,7 +940,7 @@ input TrajectoryCreateOneWithoutDetectionsInput {
 
 input TrajectoryCreateWithoutCameraInput {
   detections: DetectionCreateManyWithoutTrajectoryInput
-  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
+  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput
   end: DateTime!
   geom: String!
   start: DateTime!
@@ -948,8 +948,8 @@ input TrajectoryCreateWithoutCameraInput {
 }
 
 input TrajectoryCreateWithoutDetectionsInput {
-  camera: CameraCreateOneWithoutTrajectoriesInput!
-  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput!
+  camera: CameraCreateOneWithoutTrajectoriesInput
+  detectionType: DetectionTypeCreateOneWithoutTrajectoriesInput
   end: DateTime!
   geom: String!
   start: DateTime!
@@ -957,7 +957,7 @@ input TrajectoryCreateWithoutDetectionsInput {
 }
 
 input TrajectoryCreateWithoutDetectionTypeInput {
-  camera: CameraCreateOneWithoutTrajectoriesInput!
+  camera: CameraCreateOneWithoutTrajectoriesInput
   detections: DetectionCreateManyWithoutTrajectoryInput
   end: DateTime!
   geom: String!
@@ -984,10 +984,10 @@ input TrajectoryOrderByInput {
 input TrajectoryWhereInput {
   AND: [TrajectoryWhereInput!]
   camera: CameraWhereInput
-  cameraId: IntFilter
+  cameraId: IntNullableFilter
   detections: DetectionListRelationFilter
   detectionType: DetectionTypeWhereInput
-  detectionTypeId: IntFilter
+  detectionTypeId: IntNullableFilter
   end: DateTimeFilter
   geom: StringFilter
   id: IntFilter
@@ -1009,8 +1009,8 @@ type User {
 }
 
 type Weather {
-  camera: Camera!
-  cameraId: Int!
+  camera: Camera
+  cameraId: Int
   cloudCoverage: Float
   humidity: Float
   id: Int!
@@ -1023,7 +1023,7 @@ type Weather {
 }
 
 input WeatherCreateInput {
-  camera: CameraCreateOneWithoutWeathersInput!
+  camera: CameraCreateOneWithoutWeathersInput
   cloudCoverage: Float
   createdAt: DateTime
   humidity: Float
@@ -1075,7 +1075,7 @@ input WeatherOrderByInput {
 input WeatherWhereInput {
   AND: [WeatherWhereInput!]
   camera: CameraWhereInput
-  cameraId: IntFilter
+  cameraId: IntNullableFilter
   cloudCoverage: FloatNullableFilter
   createdAt: DateTimeFilter
   humidity: FloatNullableFilter
