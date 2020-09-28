@@ -1,11 +1,9 @@
-import {
-  asyncMiddleware,
-  cameraCheck,
-  counterCheck,
-  detectionCheck,
-  recordingCheck,
-  trajectoryCheck,
-} from "./lib/middlewares/index";
+import { trajectoryCheck } from "./lib/middlewares/trajectory-check";
+import { detectionCheck } from "./lib/middlewares/detection-check";
+import { counterCheck } from "./lib/middlewares/counter-check";
+import { recordingCheck } from "./lib/middlewares/recording-check";
+import { cameraCheck } from "./lib/middlewares/camera-check";
+import { asyncMiddleware } from "./lib/middlewares/async-middleware";
 import e, { NextFunction } from "express";
 
 import { server, use } from "nexus";
