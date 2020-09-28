@@ -1,15 +1,15 @@
+/* eslint-disable jest/prefer-inline-snapshots */
 /* eslint-disable jest/no-hooks */
-/* eslint-disable jest/no-test-callback */
 /* eslint-disable jest/prefer-todo */
 /* eslint-disable jest/expect-expect */
 /* eslint-disable jest/consistent-test-it */
 // tests/foo.spec.ts
 // this test runs without a db
-import { createTestContext } from "../test/__helpers";
+import { createTestContext } from "../tests/helpers";
 
 const ctx = createTestContext();
 describe("stub group without a DB", () => {
-  test("stub tests", async (done) => {
+  test("stub tests", async () => {
     // use `ctx` in here
     //   await ctx.client.send(`
     //   mutation {
@@ -22,8 +22,10 @@ describe("stub group without a DB", () => {
     //     }
     //   }
     // `);
-    const createdCamera = await ctx.client.send(`{ allCameras { id } }`);
-    expect(createdCamera).toMatchInlineSnapshot();
-    done();
+    // const allCamera = await ctx.client.send(`{ allCameras { id } }`);
+    // expect(allCamera).toMatchInlineSnapshot();
+    const persistedData = await ctx.app.db.client.camera.findMany();
+    expect(persistedData).toMatchSnapshot();
+    // done();
   });
 });

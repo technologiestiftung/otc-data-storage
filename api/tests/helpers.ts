@@ -1,8 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable jest/no-hooks */
 /* eslint-disable jest/require-top-level-describe */
-// tests/__helpers.ts
-// tests/__helpers.ts
 
 import {
   createTestContext as originalCreateTestContext,
@@ -19,6 +17,9 @@ export function createTestContext(): TestContext {
   });
 
   afterAll(async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await ctx.app.db.client.$disconnect();
     await ctx.app.stop();
   });
 

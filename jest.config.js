@@ -8,6 +8,9 @@ module.exports = merge(config, {
       diagnostics: { warnOnly: true },
     },
   },
+  setupFilesAfterEnv: ["./jest.setup.js"],
+
+  testEnvironment: "./api/tests/nexus-test-environment.js",
   collectCoverageFrom: ["src/**/*.{ts}", "!src/test/**/*"],
   modulePathIgnorePatterns: ["<rootDir>/dist"],
 });

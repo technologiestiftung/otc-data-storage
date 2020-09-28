@@ -4,7 +4,7 @@
 name: Node.js CI
 
 env:
-  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres?schema=public"
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/testing?schema=public"
 on:
   push:
     branches: [master]
@@ -23,6 +23,8 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: testing
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -44,5 +46,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: npx prisma migrate save --name init --experimental && npx prisma migrate up --experimental
-      - run: npm test
+      - run: npx prisma migrate save --name init --experimental && npx prisma migrate up --create-db --experimental
+      - run: npm test -- --runInBand
