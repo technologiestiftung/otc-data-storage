@@ -4,6 +4,6 @@
 
 module.exports = {
   hooks: {
-    "pre-commit": "npm -s run build && lint-staged",
+    "pre-commit": "lint-staged",
   },
 };
