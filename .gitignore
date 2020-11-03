@@ -133,3 +133,6 @@ dist
 .tmp_build/server.js
 .tmp_build/server.js.map
 pg-data
+mongo/data
+
+mongo/mongodumps/
