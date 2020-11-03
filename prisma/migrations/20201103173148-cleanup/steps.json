@@ -1,0 +1,30 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "db"
+      },
+      "argument": "provider",
+      "newValue": "\"sqlite\""
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Camera",
+      "field": "active"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "DetectionType",
+          "field": "label"
+        },
+        "directive": "unique"
+      }
+    }
+  ]
+}

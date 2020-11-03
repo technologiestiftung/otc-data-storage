@@ -3,12 +3,12 @@
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url = "***"
 }
 
 // datasource db {
 //   provider = "postgresql"
-//   url      = env("DATABASE_URL")
+//   url = "***"
 // }
 
 generator client {
@@ -73,16 +73,17 @@ model Counter {
   // createa manually by try and error :D
   // if we have a geom on the camera
   // we can calculate that line string from the coordinates
-  line        String
+  line            String
   // should be actually
   // - bidirectional
   // - left
   // - right
-  direction   String
-  detections  Detection[]
-  recording   Recording?  @relation(fields: [recordingId], references: [id])
-  recordingId Int?
-  comment     String?
+  direction       String
+  detections      Detection[]
+  recording       Recording?     @relation(fields: [recordingId], references: [id])
+  recordingId     Int?
+  detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
+  detectionTypeId Int?
 }
 
 // is there also a detection object which holds all the objects
@@ -106,9 +107,9 @@ model DetectionType {
   id           Int          @id @default(autoincrement())
   label        String       @unique
   description  String?
+  counters     Counter[]
   trajectories Trajectory[]
   detections   Detection[]
-
 }
 
 // is a collection of detections

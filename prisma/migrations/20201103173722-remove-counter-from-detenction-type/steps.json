@@ -1,0 +1,20 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "detectionTypeId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Counter",
+      "field": "detectionType"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "DetectionType",
+      "field": "counters"
+    }
+  ]
+}
