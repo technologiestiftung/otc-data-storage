@@ -12,3 +12,6 @@
 20201103173148-cleanup
 20201103173722-remove-counter-from-detenction-type
 20201103180237-counter-comment
+20201104125033-rename-counter-to-area
+20201104132451-rename-couterid-to-areaid
+20201104133623-add-mongo-id-to-area

@@ -3,17 +3,16 @@
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url = "***"
 }
 
 // datasource db {
 //   provider = "postgresql"
-//   url      = env("DATABASE_URL")
+//   url = "***"
 // }
 
 generator client {
-  provider             = "prisma-client-js"
-  experimentalFeatures = ["connectOrCreate"]
+  provider = "prisma-client-js"
 }
 
 // generator dbml {
@@ -41,6 +40,7 @@ model Camera {
   trajectories         Trajectory[]
   weathers             Weather[]
   lightningConditions  LightningCondition[]
+  // Area              Area[]
   recordings           Recording[]
 }
 
@@ -59,7 +59,6 @@ model Recording {
 // curl "http://192.168.1.210:8080/counter/areas"
 model Area {
   id        Int      @id @default(autoincrement())
-  mongoId   String   @unique
   createdAt DateTime @default(now())
   street    String
   // manually
@@ -83,6 +82,7 @@ model Area {
   detections  Detection[]
   recording   Recording?  @relation(fields: [recordingId], references: [id])
   recordingId Int?
+  comment     String?
 }
 
 // is there also a detection object which holds all the objects
@@ -96,8 +96,8 @@ model Detection {
   // could have a relation to the trajectories
   trajectory      Trajectory?    @relation(fields: [trajectoryId], references: [id])
   trajectoryId    Int?
-  area            Area?          @relation(fields: [areaId], references: [id])
-  areaId          Int?
+  counter         Area?          @relation(fields: [counterId], references: [id])
+  counterId       Int?
   detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
   detectionTypeId Int?
 }

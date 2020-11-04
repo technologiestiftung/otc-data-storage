@@ -3,12 +3,12 @@
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url = "***"
 }
 
 // datasource db {
 //   provider = "postgresql"
-//   url      = env("DATABASE_URL")
+//   url = "***"
 // }
 
 generator client {
@@ -59,7 +59,6 @@ model Recording {
 // curl "http://192.168.1.210:8080/counter/areas"
 model Area {
   id        Int      @id @default(autoincrement())
-  mongoId   String   @unique
   createdAt DateTime @default(now())
   street    String
   // manually
@@ -83,6 +82,7 @@ model Area {
   detections  Detection[]
   recording   Recording?  @relation(fields: [recordingId], references: [id])
   recordingId Int?
+  mongoId     String?
 }
 
 // is there also a detection object which holds all the objects
