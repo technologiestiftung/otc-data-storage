@@ -136,3 +136,4 @@ pg-data
 mongo/data
 
 mongo/mongodumps/
+prisma/dev.db
