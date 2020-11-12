@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { PrismaClient } from "@prisma/client";
+import groupBy from "lodash/groupBy";
 // import Debug from "debug";
 import {
   RawArea,
@@ -8,9 +9,11 @@ import {
   MongoDetection,
   MongoRecording,
   MongoArea,
+  Dictionary,
 } from "./common";
 
-import { dedupeByProp } from "./utils";
+import { dedupeByProp, writeFileAsync } from "./utils";
+import console from "console";
 
 const uri = "mongodb://localhost:27017";
 const prisma = new PrismaClient();
@@ -21,7 +24,17 @@ const rawRecordings: RawRecording[] = [];
 let skippedRecordingsNum = 0;
 let mongoRecordingsNum = 0;
 let mongoTrackerNum = 0;
-const trackerHash = ({ id }: { id: number }) => `${id}`;
+const trackerHash = ({
+  id,
+  frameId,
+  recordingId,
+  name,
+}: {
+  id: number;
+  frameId: number;
+  recordingId: string;
+  name: string;
+}) => `${id}|${frameId}|${recordingId}|${name}`;
 
 /**
  * Can be used to create detections and a initial cam
@@ -44,14 +57,18 @@ async function _setupOnce(prisma: PrismaClient) {
 }
 
 async function main() {
-  // await setupOnce(prisma);
+  console.time("all");
   try {
+    await _setupOnce(prisma);
     await mongo.connect();
     const db = mongo.db("opendatacam");
     // TODO: Remove cleanup code
-    await prisma.$executeRaw`DELETE from Detection;`;
-    await prisma.$executeRaw`DELETE from Area;`;
-    await prisma.$executeRaw`DELETE from Recording;`;
+    // await prisma.$executeRaw`DELETE from Detection;`;
+    // await prisma.$executeRaw`DELETE from Area;`;
+    // await prisma.$executeRaw`DELETE from Recording;`;
+    // await prisma.$executeRaw`TRUNCATE TABLE Detection;`;
+    // await prisma.$executeRaw`TRUNCATE TABLE Area;`;
+    // await prisma.$executeRaw`TRUNCATE TABLE Recording;`;
     const cameras = await prisma.camera.findMany({
       where: { name: "citylab tx2" },
     });
@@ -67,14 +84,14 @@ async function main() {
     await db
       .collection("tracker")
       .find({})
-      // .limit(10000)
+      // .limit(100000)
       .forEach((doc) => {
         // console.log(doc);
         // console.log(typeof doc.recordingId);
         for (const obj of doc.objects) {
           const item: RawDetection = {
             ...(obj as MongoDetection),
-            mongoId: doc._id as string,
+            mongoId: doc._id.toString(),
             recordingId: doc.recordingId as string,
             frameId: doc.frameId as number,
             timestamp: doc.timestamp as Date,
@@ -83,16 +100,19 @@ async function main() {
           rawTrackedObjects.push(item);
         }
       });
-
+    await writeFileAsync("raw-tracked-objects.json", rawTrackedObjects);
     console.timeEnd("tracker");
     console.info("End tracker processing");
     console.time("create-index");
+
     const trackerIndex = Object.fromEntries(
       rawTrackedObjects.map((x) => [trackerHash(x), x]),
     );
+
     console.timeEnd("create-index");
     console.info("End tracker index creation");
     console.log("Index has", Object.keys(trackerIndex).length, "elements");
+    await writeFileAsync("tracker-index.json", trackerIndex);
 
     //  ██▀███  ▓█████  ▄████▄   ▒█████   ██▀███  ▓█████▄
     // ▓██ ▒ ██▒▓█   ▀ ▒██▀ ▀█  ▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌
@@ -152,6 +172,9 @@ async function main() {
         skippedRecordingsNum++;
         continue;
       }
+      const rawRecordingHistoryItems = recording.counterHistory.map((item) => {
+        return { ...item, recordingId: recording._id };
+      });
 
       // create recording
       const rec = await prisma.recording.create({
@@ -159,6 +182,7 @@ async function main() {
           recordingStart: recording.dateStart,
           recordingEnd: recording.dateEnd,
           camera: { connect: { id: cameras[0].id } },
+          mongoId: recording._id.toString(),
         },
       });
 
@@ -171,7 +195,7 @@ async function main() {
         });
       }
 
-      const matches = recording.counterHistory.filter(
+      const matches = rawRecordingHistoryItems.filter(
         (item) =>
           Object.prototype.hasOwnProperty.call(trackerIndex, trackerHash(item)),
         // item.hasOwnProperty(trackerHash(item)),
@@ -183,7 +207,10 @@ async function main() {
         "items",
       );
       for await (const item of matches) {
-        const indexItem = trackerIndex[`${item.id}`];
+        const indexItem =
+          trackerIndex[
+            `${item.id}|${item.frameId}|${item.recordingId}|${item.name}`
+          ];
         const associatedAreas = await prisma.area.findMany({
           where: { mongoId: item.area },
         });
@@ -192,9 +219,11 @@ async function main() {
         } else {
           const _detection = await prisma.detection.create({
             data: {
+              mongoId: indexItem.mongoId,
               confidence: indexItem.confidence,
               detectedAt: item.timestamp,
               area: { connect: { id: associatedAreas[0].id } },
+              Recording: { connect: { id: rec.id } },
               detectionType: {
                 connectOrCreate: {
                   where: {
@@ -210,6 +239,114 @@ async function main() {
         }
       }
     }
+
+    //    _|   _| _` | |   -_)   _|   _|   _ \   _| |   -_) (_-<
+    //   |            _)             |             _)
+    //  \__| _| \__,_| | \___| \__| \__| \___/ _|  _| \___| ___/
+    //              __/
+    //#region
+    const calcTrajectories = async () => {
+      const rawTrackerObjectsGroupedByRecordingId = groupBy(
+        rawTrackedObjects,
+        "recordingId",
+      );
+      const recFramesOfTrackedObject: Dictionary<Dictionary<
+        RawDetection[]
+      >> = {};
+
+      for (const key of Object.keys(rawTrackerObjectsGroupedByRecordingId)) {
+        const items = rawTrackerObjectsGroupedByRecordingId[key];
+        const sortedByFrameId = groupBy(items, "frameId");
+        recFramesOfTrackedObject[key] = sortedByFrameId;
+      }
+
+      // create a dictionary with the recording key as id
+      // for the dictionaries created from the trajetories
+      // throughout the frames
+      // we have something like a raw trajetory
+      const trajectoriesPerRecording: Dictionary<any> = {};
+      for (const recKey in recFramesOfTrackedObject) {
+        const recording = recFramesOfTrackedObject[recKey];
+        const trajectories: Dictionary<any> = {};
+        for (const frameKey in recording) {
+          const frame = recording[frameKey];
+          for (const item of frame) {
+            if (
+              Object.prototype.hasOwnProperty.call(trajectories, `${item.id}`)
+            ) {
+              trajectories[`${item.id}`].push(item);
+            } else {
+              trajectories[`${item.id}`] = [item];
+            }
+          }
+        }
+        trajectoriesPerRecording[recKey] = trajectories;
+      }
+
+      for await (const recordingId of Object.keys(trajectoriesPerRecording)) {
+        // console.time("raw");
+        // const recsRaw = await prisma.$queryRaw(
+        //   "SELECT id FROM Recording WHERE  mongoId = $1",
+        //   recordingId,
+        // );
+        // console.timeEnd("raw");
+        // console.time("notraw");
+        const recs = await prisma.recording.findMany({
+          where: { mongoId: recordingId },
+        });
+        // console.timeEnd("notraw");
+        // console.log(recsRaw);
+        console.log(recs);
+        if (recs.length === 0) {
+          continue;
+        }
+
+        const trajectories = trajectoriesPerRecording[recordingId];
+        for await (const trayKey of Object.keys(trajectories)) {
+          const trajectory = await prisma.trajectory.create({
+            data: {
+              trajectory: "",
+              geom: "",
+              start: new Date().toISOString(),
+              end: new Date().toISOString(),
+              camera: { connect: { id: cameras[0].id } },
+              Recording: { connect: { id: recs[0].id } },
+            },
+          });
+          for await (const detection of trajectories[trayKey]) {
+            const exitingDetection = await prisma.detection.findMany({
+              where: { mongoId: detection.mongoId },
+            });
+            if (exitingDetection.length > 0) {
+              await prisma.detection.update({
+                where: { id: exitingDetection[0].id },
+                data: {
+                  trajectory: { connect: { id: trajectory.id } },
+                },
+              });
+            } else {
+              await prisma.detection.create({
+                data: {
+                  mongoId: detection.mongoId,
+                  confidence: detection.confidence,
+                  detectedAt: detection.timestamp,
+                  detectionType: {
+                    connectOrCreate: {
+                      where: { label: detection.name },
+                      create: { label: detection.name },
+                    },
+                  },
+                  Recording: { connect: { id: recs[0].id } },
+                  trajectory: { connect: { id: trajectory.id } },
+                },
+              });
+            }
+          }
+        }
+      }
+    };
+    // await calcTrajectories();
+    //#endregion
     console.timeEnd("recordings");
     console.log("end recordings processing");
     console.log(
@@ -223,6 +360,7 @@ async function main() {
   } finally {
     await mongo.close();
     // prisma.$disconnect();
+    console.timeEnd("all");
   }
 }
 

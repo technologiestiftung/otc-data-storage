@@ -45,13 +45,23 @@ export interface RawDetection {
   timestamp: Date;
 }
 
+/**
+ *
+ * Nice one. Thanks lodash
+ */
+export interface Dictionary<T> {
+  [index: string]: T;
+}
 export type MongoDetection = Omit<
   RawDetection,
   "mongoId" | "recordingId" | "frameId" | "timestamp"
 >;
 
 export interface MongoHistoryDetecion
-  extends Omit<RawDetection, "x" | "y" | "w" | "h" | "confidence"> {
+  extends Omit<
+    RawDetection,
+    "x" | "y" | "w" | "h" | "confidence" | "recordingId"
+  > {
   countingDirection: "leftright_topbottom" | "rightleft_bottomtop";
   area: "string";
 }
