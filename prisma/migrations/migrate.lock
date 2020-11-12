@@ -15,3 +15,8 @@
 20201104125033-rename-counter-to-area
 20201104132451-rename-couterid-to-areaid
 20201104133623-add-mongo-id-to-area
+20201105132122-detection-with-mongo-id
+20201105140156-unique-id-and-mongoid
+20201105140623-detections-in-recordings
+20201105142509-add-recording-to-trajectories
+20201105142708-recording-with-mongo-id
