@@ -244,7 +244,8 @@ async function main() {
     //   |            _)             |             _)
     //  \__| _| \__,_| | \___| \__| \__| \___/ _|  _| \___| ___/
     //              __/
-    //#region
+    //#region trajectories
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const calcTrajectories = async () => {
       const rawTrackerObjectsGroupedByRecordingId = groupBy(
         rawTrackedObjects,
