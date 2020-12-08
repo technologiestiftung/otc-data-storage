@@ -1,22 +1,17 @@
-<<<<<<< HEAD
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-=======
 // datasource db {
 //   provider = "sqlite"
 //   url      = "file:./dev.db"
 // }
->>>>>>> b394849781029260b7b8ae6354605a075baf51f8
-
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
 
 // datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
+//   provider = "sqlite"
+//   url      = "file:./dev.db"
 // }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
@@ -53,13 +48,8 @@ model Camera {
 }
 
 model Recording {
-<<<<<<< HEAD
-  id             Int       @id @default(autoincrement())
-  createdAt      DateTime  @default(now())
-=======
   id             Int          @id @default(autoincrement())
   createdAt      DateTime     @default(now())
->>>>>>> b394849781029260b7b8ae6354605a075baf51f8
   recordingStart DateTime
   recordingEnd   DateTime
   areas          Area[]
@@ -73,14 +63,9 @@ model Recording {
 // Area should be equivalent to Area
 // https://opendatacam.github.io/opendatacam/apidoc/#api-Area
 // curl "http://192.168.1.210:8080/counter/areas"
-<<<<<<< HEAD
-model Counter {
-  id        Int      @id @default(autoincrement())
-=======
 model Area {
   id        Int      @id @default(autoincrement())
   mongoId   String   @unique
->>>>>>> b394849781029260b7b8ae6354605a075baf51f8
   createdAt DateTime @default(now())
   street    String
   // manually
@@ -104,10 +89,6 @@ model Area {
   detections  Detection[]
   recording   Recording?  @relation(fields: [recordingId], references: [id])
   recordingId Int?
-<<<<<<< HEAD
-  comment     String?
-=======
->>>>>>> b394849781029260b7b8ae6354605a075baf51f8
 }
 
 // is there also a detection object which holds all the objects

@@ -48,21 +48,17 @@
     "typescript": "3.9.5"
   },
   "dependencies": {
-    "@nexus/schema": "0.18.0",
     "@prisma/client": "2.11.0",
     "acorn": "8.0.1",
     "bcrypt": "5.0.0",
     "cors": "2.8.5",
     "debug": "4.2.0",
     "express": "4.17.1",
-    "graphql": "15.4.0",
     "http-errors": "1.8.0",
     "jsonwebtoken": "8.5.1",
     "lodash.groupby": "4.6.0",
     "lodash.sortby": "4.7.0",
-    "morgan": "1.10.0",
-    "nexus-plugin-jwt-auth": "1.4.0",
-    "nexus-plugin-prisma": "0.24.0"
+    "morgan": "1.10.0"
   },
   "engines": {
     "node": ">=10.0.0"
