@@ -7,7 +7,6 @@
     "outDir": "dist",
     "rootDir": "api",
     "strict": true,
-    "noEmit": true,
     "lib": ["esnext"],
     "esModuleInterop": true,
     "skipLibCheck": true,
