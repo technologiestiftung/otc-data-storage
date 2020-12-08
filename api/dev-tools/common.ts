@@ -15,7 +15,7 @@ export interface Point {
   x: number;
   y: number;
 }
-export interface RawCounter {
+export interface RawArea {
   color: string;
   type: string;
   location: Location;
@@ -28,7 +28,7 @@ export interface RawCounter {
   name: string;
   mongoId: string;
 }
-export type MongoCounter = Omit<RawCounter, "mongoId">;
+export type MongoArea = Omit<RawArea, "mongoId">;
 
 export interface RawDetection {
   id: number;
@@ -45,13 +45,23 @@ export interface RawDetection {
   timestamp: Date;
 }
 
+/**
+ *
+ * Nice one. Thanks lodash
+ */
+export interface Dictionary<T> {
+  [index: string]: T;
+}
 export type MongoDetection = Omit<
   RawDetection,
   "mongoId" | "recordingId" | "frameId" | "timestamp"
 >;
 
 export interface MongoHistoryDetecion
-  extends Omit<RawDetection, "x" | "y" | "w" | "h" | "confidence"> {
+  extends Omit<
+    RawDetection,
+    "x" | "y" | "w" | "h" | "confidence" | "recordingId"
+  > {
   countingDirection: "leftright_topbottom" | "rightleft_bottomtop";
   area: "string";
 }
@@ -60,13 +70,13 @@ export interface MongoRecording {
   dateStart: Date;
   dateEnd: Date;
   areas: {
-    [key: string]: MongoCounter;
+    [key: string]: MongoArea;
   };
   videoResolution: Resolution;
   filename: string;
   counterSummary: { [key: string]: { _total: number; car?: number } };
   trackerSummary: { totalItemsTracked: number };
-  counterHistory: MongoHistoryDetecion[];
+  counterHistory?: MongoHistoryDetecion[];
 }
 
 export type RawRecording = MongoRecording;

@@ -136,3 +136,6 @@ pg-data
 mongo/data
 
 mongo/mongodumps/
+prisma/dev.db
+api/dev-tools/data/tracker-index.json
+api/dev-tools/data/raw-tracked-objects.json

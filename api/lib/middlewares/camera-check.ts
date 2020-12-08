@@ -3,7 +3,7 @@ import { middlewareFunc } from "../common/types";
 import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
-export const cameraCheck: middlewareFunc = async (request, response, next) => {
+export const checkCamera: middlewareFunc = async (request, response, next) => {
   const id = parseInt(request.params.cameraId);
 
   const camera = await db.camera.findOne({

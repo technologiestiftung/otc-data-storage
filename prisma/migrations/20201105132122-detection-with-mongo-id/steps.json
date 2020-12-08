@@ -1,0 +1,40 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "mongoId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "mongoId"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Area",
+      "field": "mongoId",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Area",
+          "field": "mongoId"
+        },
+        "directive": "unique"
+      }
+    }
+  ]
+}

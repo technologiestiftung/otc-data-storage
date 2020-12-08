@@ -1,0 +1,38 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Detection",
+      "field": "mongoId",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "mongoId"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Detection",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[id, mongoId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    }
+  ]
+}

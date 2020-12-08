@@ -1,0 +1,65 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Recording",
+      "field": "detections",
+      "type": "Detection",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "Recording",
+      "type": "Recording",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[recordingId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Detection",
+          "field": "Recording"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Detection",
+      "field": "recordingId",
+      "type": "Int",
+      "arity": "Optional"
+    }
+  ]
+}
