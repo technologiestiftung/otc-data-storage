@@ -1,16 +1,18 @@
-// datasource db {
-//   provider = "sqlite"
-//   url      = "file:./dev.db"
-// }
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url = "***"
 }
+
+// datasource db {
+//   provider = "postgresql"
+//   url = "***"
+// }
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["connectOrCreate"]
 }
 
 // generator dbml {
@@ -38,29 +40,25 @@ model Camera {
   trajectories         Trajectory[]
   weathers             Weather[]
   lightningConditions  LightningCondition[]
+  // Counter              Counter[]
   recordings           Recording[]
-
 }
 
 model Recording {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
   recordingStart DateTime
   recordingEnd   DateTime
-  areas          Area[]
-  camera         Camera?      @relation(fields: [cameraId], references: [id])
+  counters       Counter[]
+  camera         Camera?   @relation(fields: [cameraId], references: [id])
   cameraId       Int?
-  detections     Detection[]
-  trajectories   Trajectory[]
-  mongoId        String
 }
 
-// Area should be equivalent to Area
-// https://opendatacam.github.io/opendatacam/apidoc/#api-Area
+// Counter should be equivalent to Counter
+// https://opendatacam.github.io/opendatacam/apidoc/#api-Counter
 // curl "http://192.168.1.210:8080/counter/areas"
-model Area {
+model Counter {
   id        Int      @id @default(autoincrement())
-  mongoId   String   @unique
   createdAt DateTime @default(now())
   street    String
   // manually
@@ -84,11 +82,12 @@ model Area {
   detections  Detection[]
   recording   Recording?  @relation(fields: [recordingId], references: [id])
   recordingId Int?
+  comment     String?
 }
 
 // is there also a detection object which holds all the objects
 // of every frame detected?
-// https://opendatacam.github.io/opendatacam/apidoc/#api-Recording-Area_data
+// https://opendatacam.github.io/opendatacam/apidoc/#api-Recording-Counter_data
 model Detection {
   id              Int            @id @default(autoincrement())
   createdAt       DateTime       @default(now())
@@ -97,15 +96,10 @@ model Detection {
   // could have a relation to the trajectories
   trajectory      Trajectory?    @relation(fields: [trajectoryId], references: [id])
   trajectoryId    Int?
-  area            Area?          @relation(fields: [areaId], references: [id])
-  areaId          Int?
+  counter         Counter?       @relation(fields: [counterId], references: [id])
+  counterId       Int?
   detectionType   DetectionType? @relation(fields: [detectionTypeId], references: [id])
   detectionTypeId Int?
-  mongoId         String
-
-  Recording   Recording? @relation(fields: [recordingId], references: [id])
-  recordingId Int?
-  @@unique([id, mongoId])
 }
 
 model DetectionType {
@@ -137,8 +131,6 @@ model Trajectory {
   detectionTypeId Int?
   camera          Camera?        @relation(fields: [cameraId], references: [id])
   cameraId        Int?
-  Recording       Recording?     @relation(fields: [recordingId], references: [id])
-  recordingId     Int?
 }
 
 model Weather {

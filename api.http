@@ -1,0 +1,15 @@
+GET http://localhost:4000/routes
+################################
+GET http://localhost:4000/cameras
+################################
+GET http://localhost:4000/cameras/1
+################################
+GET http://localhost:4000/cameras/1/recordings
+################################
+GET http://localhost:4000/cameras/1/recordings/1
+################################
+GET http://localhost:4000/cameras/1/recordings/1/areas
+################################
+GET http://localhost:4000/cameras/1/recordings/1/areas/1
+################################
+GET http://localhost:4000/cameras/1/recordings/1/areas/1/detections

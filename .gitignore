@@ -133,3 +133,9 @@ dist
 .tmp_build/server.js
 .tmp_build/server.js.map
 pg-data
+mongo/data
+
+mongo/mongodumps/
+prisma/dev.db
+api/dev-tools/data/tracker-index.json
+api/dev-tools/data/raw-tracked-objects.json

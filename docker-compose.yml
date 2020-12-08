@@ -10,4 +10,22 @@ services:
     volumes:
       - ./pg-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
+  mongo:
+    # if you didn't create this yet great. Ignore the volumne and the the rest below
+    # this image was created locally and does not exsist on the registry.
+    # To recreate this you will need a dump of the odc mongodb
+    # - create a new mongo 4.4.1-bionic container
+    # - mount the dump into the container
+    # - use docker restore to get it into the db
+    # - then run
+    # docker commit <CONTAINER ID> otc-mongo-441-bionic
+    # image: otc-mongo-441-bionic
+    image: mongo:4.4.1-bionic
+    ports:
+      - "27017:27017"
+    volumes:
+      # - ./mongo-dump-2020-10-05T15-49-03/:/mongo-dump
+      # - /var/lib/docker/volumes/9d275b9b02eceb35030b77443bafb2b10bca9db78777ca50af42b3be8f1370bd/_data:/data/db
+      - ./mongo/mongodumps/mongodump-2020-11-02T09-49-42/:/mongo-dump
+      - ./mongo/data:/data/db

@@ -2,7 +2,7 @@ import createError from "http-errors";
 import { middlewareFunc } from "../common/types";
 import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
-export const detectionCheck: middlewareFunc = async (
+export const checkDetection: middlewareFunc = async (
   request,
   response,
   next,

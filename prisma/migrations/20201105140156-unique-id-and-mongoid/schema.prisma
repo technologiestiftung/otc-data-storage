@@ -1,16 +1,16 @@
-// datasource db {
-//   provider = "sqlite"
-//   url      = "file:./dev.db"
-// }
-
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url = "***"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url = "***"
+// }
+
 generator client {
-  provider = "prisma-client-js"
-  // previewFeatures = ["connectOrCreate"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
 }
 
 // generator dbml {
@@ -39,20 +39,16 @@ model Camera {
   weathers             Weather[]
   lightningConditions  LightningCondition[]
   recordings           Recording[]
-
 }
 
 model Recording {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
   recordingStart DateTime
   recordingEnd   DateTime
   areas          Area[]
-  camera         Camera?      @relation(fields: [cameraId], references: [id])
+  camera         Camera?  @relation(fields: [cameraId], references: [id])
   cameraId       Int?
-  detections     Detection[]
-  trajectories   Trajectory[]
-  mongoId        String
 }
 
 // Area should be equivalent to Area
@@ -103,8 +99,6 @@ model Detection {
   detectionTypeId Int?
   mongoId         String
 
-  Recording   Recording? @relation(fields: [recordingId], references: [id])
-  recordingId Int?
   @@unique([id, mongoId])
 }
 
@@ -137,8 +131,6 @@ model Trajectory {
   detectionTypeId Int?
   camera          Camera?        @relation(fields: [cameraId], references: [id])
   cameraId        Int?
-  Recording       Recording?     @relation(fields: [recordingId], references: [id])
-  recordingId     Int?
 }
 
 model Weather {
