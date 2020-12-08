@@ -172,12 +172,30 @@ server.get(
   asyncMiddleware(checkCamera),
   asyncMiddleware(checkRecording),
   asyncMiddleware(areaCheck),
-  asyncWrapper(async (_request, response) => {
-    const detection = await db.detection.findMany();
-    const result = createResponse<Detection[]>(
-      "success",
-      detection,
-      "detection",
+  asyncWrapper(async (request, response) => {
+    const skip = request.query.skip
+      ? parseInt(request.query.skip as string, 10)
+      : 0;
+    const take = request.query.take
+      ? parseInt(request.query.take as string, 10)
+      : 100;
+
+    console.log(request.query);
+    const detections = await db.detection.findMany({ skip, take });
+    const count = await db.detection.count();
+    const result = createResponse<{
+      detections: Detection[];
+      [key: string]: any;
+    }>(
+      `success (showing: ${skip} to ${skip + take} of ${count})`,
+      {
+        detections,
+        moreItemsAvailable: skip + take > count ? false : true,
+        skip,
+        take,
+        count,
+      },
+      "detections",
     );
     response.json(result);
   }),

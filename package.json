@@ -10,7 +10,7 @@
     "pretest": "npm run prisma:generate",
     "test": "inpyjamas-scripts test",
     "predev": "npm run prisma:generate",
-    "dev": "inpyjamas-scripts dev api/index.ts",
+    "dev": "ts-node-dev --rs --respawn --transpile-only api/index.ts",
     "prebuild": "npm run prisma:generate",
     "build": "tsc -p .",
     "start": "node -r dotenv/config dist/api/index.js dotenv_config_path=prisma/.env",

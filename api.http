@@ -13,3 +13,8 @@ GET http://localhost:4000/cameras/1/recordings/1/areas
 GET http://localhost:4000/cameras/1/recordings/1/areas/1
 ################################
 GET http://localhost:4000/cameras/1/recordings/1/areas/1/detections
+
+################################
+
+
+GET http://localhost:4000/cameras/1/recordings/1/areas/1/detections?skip=10&take=10
