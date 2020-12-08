@@ -13,7 +13,7 @@
     "dev": "ts-node-dev --rs --respawn --transpile-only api/index.ts",
     "prebuild": "npm run prisma:generate",
     "build": "tsc -p .",
-    "start": "node -r dotenv/config dist/api/index.js dotenv_config_path=prisma/.env",
+    "start": "node dist/api/index.js",
     "mongo:transfer": "inpyjamas-scripts dev api/dev-tools/mongo-transfer.ts",
     "clean": "rm -rf dist",
     "lint-staged": "lint-staged",
